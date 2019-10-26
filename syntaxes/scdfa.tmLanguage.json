@@ -1,0 +1,73 @@
+{
+    "scopeName": "source.scdfa",
+    "patterns": [{ "include": "#comments" }],
+    "repository": {
+        "comments": {
+            "patterns":[
+                {
+                    "begin": "^[\\S]?--",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.scdfa"
+                        }
+                    },
+                    "end": "\\n",
+					"name": "meta.deployment-property.scdfa",
+					"patterns": [
+						{
+							"match": "(@\\w+) (.+)",
+							"name": "storage.type.scdfa"
+						}
+					]
+                },
+                {
+					"begin": "(^[ \\t]+)?(?=#)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.comment.leading.scdfa"
+						}
+					},
+					"end": "(?!\\G)",
+					"patterns": [
+						{
+							"begin": "#",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.comment.scdfa"
+								}
+							},
+							"end": "\\n",
+							"name": "comment.line.double-dash.scdfa"
+						}
+                    ]
+				},
+				{
+					"begin": "/\\*",
+					"captures": {
+						"0": {
+							"name": "punctuation.definition.comment.scdfa"
+						}
+					},
+					"end": "\\*/",
+					"name": "comment.block.c"
+				},
+				{
+					"begin": "(source|sink|task|processor)\\.(\\S+)=(.+)",
+					"captures": {
+						"1": {
+							"name": "entity.name.function.scdfa"
+						},
+						"2": {
+							"name": "entity.name.type.scdfa"
+						},
+						"3": {
+							"name": "meta.block.scdfa"
+						}
+					},
+                    "end": "\\n",
+                    "name": "meta.class.scdfa"
+				}
+            ]
+        }
+    }
+}

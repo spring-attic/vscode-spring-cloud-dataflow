@@ -1,0 +1,17 @@
+.vscode/**
+.vscode-test/**
+out/
+!out/spring-cloud-dataflow-language-server.jar
+out/test/**
+src/**
+docs/**
+.gitignore
+vsc-extension-quickstart.md
+**/tsconfig.json
+**/tslint.json
+**/*.map
+**/*.ts
+scdflsp.js
+node_modules
+webpack.config.js
+.azure-pipelines/

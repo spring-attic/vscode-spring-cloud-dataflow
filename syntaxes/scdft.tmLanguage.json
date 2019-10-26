@@ -1,0 +1,57 @@
+{
+    "scopeName": "source.scdft",
+    "patterns": [{ "include": "#comments" }],
+    "repository": {
+        "comments": {
+            "patterns":[
+                {
+                    "begin": "^[\\S]?--",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.comment.scdft"
+                        }
+                    },
+                    "end": "\\n",
+					"name": "meta.deployment-property.scdfs",
+					"patterns": [
+						{
+							"match": "(@\\w+) (.+)",
+							"name": "storage.type.scdfs"
+						}
+					]
+                },
+                {
+					"begin": "(^[ \\t]+)?(?=#)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.whitespace.comment.leading.scdft"
+						}
+					},
+					"end": "(?!\\G)",
+					"patterns": [
+						{
+							"begin": "#",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.comment.scdft"
+								}
+							},
+							"end": "\\n",
+							"name": "comment.line.double-dash.scdft"
+						}
+                    ]
+				},
+				{
+					"begin": "/\\*",
+					"captures": {
+						"0": {
+							"name": "punctuation.definition.comment.scdft"
+						}
+					},
+					"end": "\\*/",
+					"name": "comment.block.c"
+				}
+            ]
+        }
+    }
+}

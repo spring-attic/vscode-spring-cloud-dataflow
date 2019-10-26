@@ -1,0 +1,438 @@
+{
+	"name": "vscode-spring-cloud-dataflow",
+	"displayName": "Spring Cloud Data Flow",
+	"description": "Developer support for Spring Cloud Data Flow",
+	"version": "0.0.1",
+	"publisher": "Pivotal",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jvalkeal/vscode-spring-cloud-dataflow-wip"
+	},
+	"icon": "media/scdficon.png",
+	"engines": {
+		"vscode": "^1.37.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onDebugInitialConfigurations",
+		"onView:scdfApps",
+		"onView:scdfStreams",
+		"onView:scdfTasks",
+		"onView:scdfJobs",
+		"onLanguage:scdfs",
+		"onLanguage:scdft",
+		"onLanguage:scdfa",
+		"onCommand:vscode-spring-cloud-dataflow.explorer.refresh",
+		"onCommand:vscode-spring-cloud-dataflow.server.register",
+		"onCommand:vscode-spring-cloud-dataflow.server.unregister",
+		"onCommand:vscode-spring-cloud-dataflow.server.notify",
+		"onCommand:vscode-spring-cloud-dataflow.app.register",
+		"onCommand:vscode-spring-cloud-dataflow.app.unregister",
+		"onCommand:vscode-spring-cloud-dataflow.streams.deploy"
+	],
+	"main": "./dist/extension",
+	"contributes": {
+		"commands": [
+			{
+				"command": "vscode-spring-cloud-dataflow.explorer.refresh",
+				"title": "Refresh Explorer",
+				"category": "SCDF",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.server.register",
+				"title": "Register Spring Cloud Data Flow Server",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.server.unregister",
+				"title": "Unregister Spring Cloud Data Flow Server",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.server.default",
+				"title": "Set as Default Server",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.server.choose",
+				"title": "Choose Default Server",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.server.notify",
+				"title": "Notify Language Server of Data Flow Server Endpoints",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.log.closeall",
+				"title": "Close All Logs",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.apps.registerall",
+				"title": "Register All Apps",
+				"category": "SCDF",
+				"icon": {
+					"light": "resources/light/app.svg",
+					"dark": "resources/dark/app.svg"
+				}
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.apps.unregister",
+				"title": "Unregister App",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.apps.default",
+				"title": "Make Default App",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.streams.show",
+				"title": "Show Stream",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.streams.log",
+				"title": "Show Stream Logs",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.streams.deploy",
+				"title": "Deploy Stream",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.streams.debugattach",
+				"title": "Debug Attach",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.streams.app.log",
+				"title": "Show Log",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.tasks.log",
+				"title": "Show Task Log",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.tasks.execution.inspect",
+				"title": "Inspect",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.tasks.debugattach",
+				"title": "Debug Attach",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.jobs.execution.inspect",
+				"title": "Inspect",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.steps.execution.inspect",
+				"title": "Inspect",
+				"category": "SCDF"
+			}
+		],
+		"configuration": [
+			{
+				"title": "SCDF Notification Settings",
+				"properties": {
+					"scdf.notification.location": {
+						"type": "string",
+						"enum": [
+							"statusbar",
+							"notifications"
+						],
+						"default": "notifications",
+						"description": "Where notifications are shown",
+						"scope": "window"
+					}
+				}
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.show",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.log",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.app.log",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.server.unregister",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.server.default",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.unregister",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.default",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.deploy",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.log",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.execution.inspect",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.jobs.execution.inspect",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.steps.execution.inspect",
+					"when": "never"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.registerall",
+					"when": "resourceLangId == scdfa"
+				}
+			],
+			"editor/title": [
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.registerall",
+					"when": "resourceLangId == scdfa",
+					"group": "navigation"
+				}
+			],
+			"view/title": [
+				{
+					"command": "vscode-spring-cloud-dataflow.server.register",
+					"when": "view == scdfApps"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.explorer.refresh",
+					"when": "view == scdfApps",
+					"group": "navigation"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.explorer.refresh",
+					"when": "view == scdfStreams",
+					"group": "navigation"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.explorer.refresh",
+					"when": "view == scdfTasks",
+					"group": "navigation"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.explorer.refresh",
+					"when": "view == scdfJobs",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "vscode-spring-cloud-dataflow.server.unregister",
+					"when": "viewItem == serverRegistration"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.server.default",
+					"when": "viewItem == serverRegistration"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.unregister",
+					"when": "viewItem == definedAppVersion"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.default",
+					"when": "viewItem == definedAppVersion"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.show",
+					"when": "viewItem == definedStream"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.log",
+					"when": "viewItem == definedStream"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.debugattach",
+					"when": "viewItem == runningStreamAppInstance"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.app.log",
+					"when": "viewItem == runningStreamAppInstance"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.log",
+					"when": "viewItem == executedTaskInstance"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.execution.inspect",
+					"when": "viewItem == executedTaskInstance"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.debugattach",
+					"when": "viewItem == executedTaskInstance"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.jobs.execution.inspect",
+					"when": "viewItem == executedJob"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.steps.execution.inspect",
+					"when": "viewItem == executedStep"
+				}
+			]
+		},
+		"languages": [
+			{
+				"id": "scdfs",
+				"aliases": [
+					"Spring Cloud Data Flow Stream Language"
+				],
+				"extensions": [
+					".scdfs"
+				]
+			},
+			{
+				"id": "scdfsr",
+				"aliases": [
+					"SCDF Stream Runtime"
+				],
+				"extensions": [
+					".scdfsr"
+				]
+			},
+			{
+				"id": "scdft",
+				"aliases": [
+					"Spring Cloud Data Flow Task Language"
+				],
+				"extensions": [
+					".scdft"
+				]
+			},
+			{
+				"id": "scdfa",
+				"aliases": [
+					"Spring Cloud Data Flow App Import Language"
+				],
+				"extensions": [
+					".scdfa"
+				]
+			}
+		],
+		"grammars": [
+			{
+				"language": "scdfa",
+				"scopeName": "source.scdfa",
+				"path": "./syntaxes/scdfa.tmLanguage.json"
+			},
+			{
+				"language": "scdfs",
+				"scopeName": "source.scdfs",
+				"path": "./syntaxes/scdfs.tmLanguage.json"
+			},
+			{
+				"language": "scdft",
+				"scopeName": "source.scdft",
+				"path": "./syntaxes/scdft.tmLanguage.json"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "scdf-explorer",
+					"title": "SCDF",
+					"icon": "media/scdf.svg"
+				}
+			]
+		},
+		"views": {
+			"scdf-explorer": [
+				{
+					"id": "scdfApps",
+					"name": "Apps"
+				},
+				{
+					"id": "scdfStreams",
+					"name": "Streams"
+				},
+				{
+					"id": "scdfTasks",
+					"name": "Tasks"
+				},
+				{
+					"id": "scdfJobs",
+					"name": "Jobs"
+				}
+			]
+		},
+		"debuggers": [
+			{
+				"type": "scdfs",
+				"label": "SCDF Stream Debug",
+				"languages": [
+					"scdfs"
+				]
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "webpack --mode production",
+		"webpack": "webpack --mode development",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile",
+		"test": "node ./out/test/runTest.js",
+		"scdflsp": "node scdflsp.js",
+		"vsce-package": "vsce package",
+		"build": "npm run scdflsp && npm run vsce-package"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^10.12.21",
+		"@types/vscode": "^1.37.0",
+		"glob": "^7.1.4",
+		"maven-repository-manager": "^1.0.0",
+		"mocha": "^6.2.0",
+		"ts-loader": "^6.1.0",
+		"tslint": "^5.12.1",
+		"typescript": "^3.3.1",
+		"vsce": "^1.62.0",
+		"vscode-test": "^1.2.0",
+		"webpack": "^4.40.2",
+		"webpack-cli": "^3.3.8"
+	},
+	"dependencies": {
+		"@pivotal-tools/vscode-extension-core": "next",
+		"@pivotal-tools/vscode-extension-di": "next",
+		"axios": "^0.19.0",
+		"inversify": "^5.0.1",
+		"reflect-metadata": "^0.1.13",
+		"vscode-languageclient": "^5.2.1"
+	}
+}
