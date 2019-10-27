@@ -114,6 +114,7 @@ export class ServerNode extends BaseNode {
                     app.name,
                     app.status,
                     app.name,
+                    app.status,
                     this.getIconManager(),
                     serverId,
                     this.registration)));

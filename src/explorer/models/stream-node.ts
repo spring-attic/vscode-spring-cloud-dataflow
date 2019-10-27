@@ -26,11 +26,12 @@ export class StreamNode extends BaseNode {
         label: string,
         public readonly description: string | undefined,
         public readonly streamName: string,
+        public readonly streamStatus: string,
         iconManager: IconManager,
         private readonly serverId: string,
         private readonly registration: ServerRegistration
     ) {
-        super(label, description, iconManager, 'definedStream');
+        super(label, description, iconManager, 'DefinedStream');
     }
 
     public getResourceUri(): Uri {
@@ -42,6 +43,10 @@ export class StreamNode extends BaseNode {
 
     protected getThemedIconPath(): ThemedIconPath {
         return this.getIconManager().getThemedIconPath('stream');
+    }
+
+    protected getContextValue(): string | undefined {
+        return this.streamStatus + 'DefinedStream';
     }
 
     public async getChildren(element: BaseNode): Promise<BaseNode[]> {

@@ -35,12 +35,16 @@ export abstract class BaseNode {
             description: this.description,
             iconPath: iconPath,
             collapsibleState: collapsibleState,
-            contextValue: this.contextValue
+            contextValue: this.getContextValue()
         };
     }
 
     public async getChildren(element: BaseNode): Promise<BaseNode[]> {
         return [];
+    }
+
+    protected getContextValue(): string | undefined {
+        return this.contextValue;
     }
 
     protected getThemedIconPath(): ThemedIconPath {

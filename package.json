@@ -270,11 +270,11 @@
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.streams.show",
-					"when": "viewItem == definedStream"
+					"when": "viewItem =~ /DefinedStream$/i"
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.streams.log",
-					"when": "viewItem == definedStream"
+					"when": "viewItem =~ /^(deployed|deploying|incomplete|failed)DefinedStream$/i"
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.streams.debugattach",
