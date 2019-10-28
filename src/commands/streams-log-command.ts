@@ -16,7 +16,7 @@
 import { injectable, inject } from 'inversify';
 import { OutputManager, NotificationManager }  from '@pivotal-tools/vscode-extension-core';
 import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
-import { COMMAND_SCDF_STREAMS_LOG } from '../extension-globals';
+import { COMMAND_SCDF_STREAMS_LOG, OUTPUT_TAG_STREAM } from '../extension-globals';
 import { ServerRegistration } from '../service/server-registration-manager';
 import { ScdfModel } from '../service/scdf-model';
 
@@ -38,7 +38,7 @@ export class StreamsLogCommand implements Command {
         const data = await model.streamLogs(args[0].streamName);
         if (data && data.logs) {
             Object.keys(data.logs).map(key => {
-                this.outputManager.setText('SCDF ' + key, data.logs[key]);
+                this.outputManager.setText('SCDF ' + key, data.logs[key], [OUTPUT_TAG_STREAM]);
             });
         } else {
             this.notificationManager.showMessage(`No logs available for stream ${args[0].streamName}`);

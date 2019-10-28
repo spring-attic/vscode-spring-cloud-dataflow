@@ -32,7 +32,7 @@ import { StreamsLogCommand } from './streams-log-command';
 import { StreamsShowCommand } from './streams-show-command';
 import { ExplorerRefreshCommand } from './explorer-refresh-command';
 import { StreamDebugAttachCommand } from './stream-debug-attach-command';
-import { ScdfLogCloseallCommand } from './scdf-log-closeall-command';
+import { ScdfLogCloseAllCommand } from './scdf-log-close-all-command';
 import { TasksCreateCommand } from './tasks-create-command';
 import { TasksDestroyCommand } from './tasks-destroy-command';
 import { TasksLaunchCommand } from './tasks-launch-command';
@@ -44,6 +44,8 @@ import { AppsDefaultCommand } from './apps-default-command';
 import { TasksExecutionInspectCommand } from './tasks-execution-inspect-command';
 import { JobsExecutionInspectCommand } from './jobs-execution-inspect-command';
 import { StepsExecutionInspectCommand } from './steps-execution-inspect-command';
+import { ScdfLogCloseStreamCommand } from './scdf-log-close-stream-command';
+import { ScdfLogCloseTaskCommand } from './scdf-log-close-task-command';
 
 const commandsContainerModule = new ContainerModule((bind) => {
     bind<ServerRegistrationManager>(TYPES.ServerRegistrationManager).to(ServerRegistrationManager).inSingletonScope();
@@ -72,7 +74,9 @@ const commandsContainerModule = new ContainerModule((bind) => {
     bind<Command>(DITYPES.Command).to(StreamsLogCommand);
     bind<Command>(DITYPES.Command).to(StreamsAppLogCommand);
     bind<Command>(DITYPES.Command).to(StreamsShowCommand);
-    bind<Command>(DITYPES.Command).to(ScdfLogCloseallCommand);
+    bind<Command>(DITYPES.Command).to(ScdfLogCloseAllCommand);
+    bind<Command>(DITYPES.Command).to(ScdfLogCloseStreamCommand);
+    bind<Command>(DITYPES.Command).to(ScdfLogCloseTaskCommand);
     bind<Command>(DITYPES.Command).to(ExplorerRefreshCommand);
 });
 export default commandsContainerModule;

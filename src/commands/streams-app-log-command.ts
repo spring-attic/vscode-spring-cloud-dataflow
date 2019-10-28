@@ -16,7 +16,7 @@
 import { injectable, inject } from 'inversify';
 import { OutputManager }  from '@pivotal-tools/vscode-extension-core';
 import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
-import { COMMAND_SCDF_STREAMS_APP_LOG } from '../extension-globals';
+import { COMMAND_SCDF_STREAMS_APP_LOG, OUTPUT_TAG_STREAM } from '../extension-globals';
 import { ServerRegistration } from '../service/server-registration-manager';
 import { ScdfModel } from '../service/scdf-model';
 
@@ -24,7 +24,7 @@ import { ScdfModel } from '../service/scdf-model';
 export class StreamsAppLogCommand implements Command {
 
     constructor(
-        @inject(DITYPES.OutputManager)private outputManager: OutputManager
+        @inject(DITYPES.OutputManager) private outputManager: OutputManager
     ) {}
 
     get id() {
@@ -37,6 +37,6 @@ export class StreamsAppLogCommand implements Command {
         const appName: string = args[0].appName;
         const model = new ScdfModel(server);
         const data = await model.streamLogs(streamName, appName);
-        this.outputManager.setText('SCDF ' + appName, data.logs[appName]);
+        this.outputManager.setText('SCDF ' + appName, data.logs[appName], [OUTPUT_TAG_STREAM]);
     }
 }

@@ -16,25 +16,23 @@
 import { injectable, inject } from 'inversify';
 import { OutputManager }  from '@pivotal-tools/vscode-extension-core';
 import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
-import { COMMAND_SCDF_TASKS_LOG, OUTPUT_TAG_TASK } from '../extension-globals';
-import { ServerRegistration } from '../service/server-registration-manager';
-import { ScdfModel } from '../service/scdf-model';
+import { OUTPUT_TAG_TASK, COMMAND_SCDF_LOG_CLOSE_TASK } from '../extension-globals';
 
+/**
+ * Command which is disposing all outputs tagged with 'task'.
+ */
 @injectable()
-export class TasksLogCommand implements Command {
+export class ScdfLogCloseTaskCommand implements Command {
 
     constructor(
         @inject(DITYPES.OutputManager) private outputManager: OutputManager
     ) {}
 
     get id() {
-        return COMMAND_SCDF_TASKS_LOG;
+        return COMMAND_SCDF_LOG_CLOSE_TASK;
     }
 
-    async execute(...args: any[]) {
-        const server: ServerRegistration = args[0].registration;
-        const model = new ScdfModel(server);
-        const data = await model.taskLogs(args[0].externalExecutionId);
-        this.outputManager.setText('SCDF ' + args[0].externalExecutionId, data, [OUTPUT_TAG_TASK]);
+    async execute() {
+        this.outputManager.disposeTagged([OUTPUT_TAG_TASK]);
     }
 }

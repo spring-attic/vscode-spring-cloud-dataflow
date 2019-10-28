@@ -70,8 +70,18 @@
 				"category": "SCDF"
 			},
 			{
-				"command": "vscode-spring-cloud-dataflow.log.closeall",
+				"command": "vscode-spring-cloud-dataflow.log.close.all",
 				"title": "Close All Logs",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.log.close.stream",
+				"title": "Close All Stream Logs",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.log.close.task",
+				"title": "Close All Task Logs",
 				"category": "SCDF"
 			},
 			{

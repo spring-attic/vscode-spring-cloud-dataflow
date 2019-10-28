@@ -16,20 +16,23 @@
 import { injectable, inject } from 'inversify';
 import { OutputManager }  from '@pivotal-tools/vscode-extension-core';
 import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
-import { COMMAND_SCDF_LOG_CLOSEALL } from '../extension-globals';
+import { COMMAND_SCDF_LOG_CLOSE_ALL, OUTPUT_TAG_STREAM, OUTPUT_TAG_TASK } from '../extension-globals';
 
+/**
+ * Command which is disposing all outputs tagged with 'stream' and 'task'.
+ */
 @injectable()
-export class ScdfLogCloseallCommand implements Command {
+export class ScdfLogCloseAllCommand implements Command {
 
     constructor(
-        @inject(DITYPES.OutputManager)private outputManager: OutputManager
+        @inject(DITYPES.OutputManager) private outputManager: OutputManager
     ) {}
 
     get id() {
-        return COMMAND_SCDF_LOG_CLOSEALL;
+        return COMMAND_SCDF_LOG_CLOSE_ALL;
     }
 
     async execute() {
-        this.outputManager.disposeAll();
+        this.outputManager.disposeTagged([OUTPUT_TAG_STREAM, OUTPUT_TAG_TASK]);
     }
 }
