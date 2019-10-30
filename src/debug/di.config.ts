@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const TYPES = {
-    ServerRegistrationManager: Symbol('ServerRegistrationManager'),
-    AppsExplorerProvider: Symbol('AppsExplorerProvider'),
-    StreamsExplorerProvider: Symbol('StreamsExplorerProvider'),
-    TasksExplorerProvider: Symbol('TasksExplorerProvider'),
-    JobsExplorerProvider: Symbol('JobsExplorerProvider'),
-    ServerRegistrationStatusBarManagerItem: Symbol('ServerRegistrationStatusBarManagerItem'),
-    DebugManager: Symbol('DebugManager'),
-    DebugProvider: Symbol('DebugProvider')
-};
+import { ContainerModule } from 'inversify';
+import { DebugProvider, LocalDebugProvider } from './debug-provider';
+import { TYPES } from '../types';
+import { DebugManager } from './debug-manager';
+
+const debugContainerModule = new ContainerModule((bind) => {
+    bind<DebugProvider>(TYPES.DebugProvider).to(LocalDebugProvider);
+    bind<DebugManager>(TYPES.DebugManager).to(DebugManager).inSingletonScope();
+});
+export default debugContainerModule;

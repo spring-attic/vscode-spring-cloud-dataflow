@@ -56,6 +56,7 @@ export interface ScdfTaskExecutionEntry extends BaseEntry {
     jobExecutionIds: number[];
     parentExecutionId: number;
     startTime: string;
+    deploymentProperties: DeploymentProperties;
     taskExecutionStatus: string;
     taskName: string;
 }

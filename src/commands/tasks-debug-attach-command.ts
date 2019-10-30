@@ -17,22 +17,24 @@ import { injectable, inject } from 'inversify';
 import { Command } from '@pivotal-tools/vscode-extension-di';
 import { COMMAND_SCDF_TASKS_DEBUG_ATTACH } from '../extension-globals';
 import { TYPES } from '../types';
-import { StreamDebugManager } from '../debug/stream-debug-manager';
 import { ExecutionNode } from '../explorer/models/execution-node';
+import { DebugManager } from '../debug/debug-manager';
 
 @injectable()
 export class TasksDebugAttachCommand implements Command {
 
     constructor(
-        @inject(TYPES.StreamDebugManager) private streamDebugManager: StreamDebugManager
+        @inject(TYPES.DebugManager) private debugManager: DebugManager
     ) {}
 
     get id() {
         return COMMAND_SCDF_TASKS_DEBUG_ATTACH;
     }
 
-    async execute(args: ExecutionNode) {
-        const debugConfiguration = await this.streamDebugManager.taskExecutionNodeDebugConfiguration(args);
-        this.streamDebugManager.launchDebug([debugConfiguration]);
+    async execute(node: ExecutionNode) {
+        const executionId = node.executionId;
+        const serverRegistration = node.registration;
+        const debugHandler = this.debugManager.getTaskDebugHandler(executionId, serverRegistration);
+        debugHandler.attach();
     }
 }

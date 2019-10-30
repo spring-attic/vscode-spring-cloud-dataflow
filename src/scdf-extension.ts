@@ -23,13 +23,13 @@ import {
 import { DITYPES, DiExtension } from '@pivotal-tools/vscode-extension-di';
 import { TYPES } from './types';
 import commandsContainerModule from './commands/di.config';
+import debugContainerModule from './debug/di.config';
 import { ScdfLanguageSupport } from './language/scdf-language-support';
 import { AppsExplorerProvider } from './explorer/apps-explorer-provider';
 import { StreamsExplorerProvider } from './explorer/streams-explorer-provider';
 import { TasksExplorerProvider } from './explorer/tasks-explorer-provider';
 import { ServerRegistrationStatusBarManagerItem } from './statusbar/server-registration-status-bar-manager-item';
 import { ServerRegistrationManager } from './service/server-registration-manager';
-import { StreamDebugManager } from './debug/stream-debug-manager';
 import { JobsExplorerProvider } from './explorer/jobs-explorer-provider';
 import { CONFIG_SCDF_NOTIFICATION_LOCATION } from './extension-globals';
 
@@ -47,6 +47,7 @@ export class ScdfExtension extends DiExtension {
 
     public onContainer(container: Container): void {
         super.onContainer(container);
+        container.load(debugContainerModule);
         container.load(commandsContainerModule);
 
         container.bind<string>(DITYPES.NotificationManagerLocationKey).toConstantValue(CONFIG_SCDF_NOTIFICATION_LOCATION);
@@ -64,8 +65,6 @@ export class ScdfExtension extends DiExtension {
 
         const serverRegistrationManager = container.get<ServerRegistrationManager>(TYPES.ServerRegistrationManager);
         container.bind<ExtensionActivateAware>(DITYPES.ExtensionActivateAware).toConstantValue(serverRegistrationManager);
-
-        container.bind<StreamDebugManager>(TYPES.StreamDebugManager).to(StreamDebugManager).inSingletonScope();
 
         // to fire build flow
         container.get<AppsExplorerProvider>(TYPES.AppsExplorerProvider);

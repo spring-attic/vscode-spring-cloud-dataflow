@@ -18,21 +18,24 @@ import { Command } from '@pivotal-tools/vscode-extension-di';
 import { COMMAND_SCDF_STREAM_DEBUG_ATTACH } from '../extension-globals';
 import { TYPES } from '../types';
 import { InstanceNode } from '../explorer/models/instance-node';
-import { StreamDebugManager } from '../debug/stream-debug-manager';
+import { DebugManager } from '../debug/debug-manager';
 
 @injectable()
 export class StreamDebugAttachCommand implements Command {
 
     constructor(
-        @inject(TYPES.StreamDebugManager) private streamDebugManager: StreamDebugManager
+        @inject(TYPES.DebugManager) private debugManager: DebugManager
     ) {}
 
     get id() {
         return COMMAND_SCDF_STREAM_DEBUG_ATTACH;
     }
 
-    async execute(args: InstanceNode) {
-        const debugConfiguration = await this.streamDebugManager.streamAppInstanceDebugConfiguration(args);
-        this.streamDebugManager.launchDebug([debugConfiguration]);
+    async execute(node: InstanceNode) {
+        const streamName = node.streamName;
+        const appName = node.appName;
+        const serverRegistration = node.registration;
+        const debugHandler = this.debugManager.getStreamDebugHandler(streamName, appName, serverRegistration);
+        debugHandler.attach();
     }
 }
