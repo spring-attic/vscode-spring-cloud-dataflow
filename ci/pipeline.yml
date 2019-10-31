@@ -1,0 +1,105 @@
+#################################################
+# Resource Types
+#################################################
+resource_types:
+
+- name: artifactory-resource
+  type: docker-image
+  source:
+    repository: springio/artifactory-resource
+    tag: 0.0.10
+
+#################################################
+# Resources
+#################################################
+resources:
+
+- name: git-repo
+  type: git
+  source:
+    uri: ((github-repo))
+    branch: ((branch))
+    ignore_paths: ["ci/images/*"]
+
+- name: ci-images-git-repo
+  type: git
+  source:
+    uri: ((github-repo))
+    branch: ((branch))
+    paths: ["ci/images/*"]
+
+- name: vscode-spring-cloud-dataflow-ci-image
+  type: docker-image
+  source:
+    repository: springsource-docker-private-local.jfrog.io/vscode-spring-cloud-dataflow-ci-image
+    username: ((artifactory-username))
+    password: ((artifactory-password))
+    tag: ((branch))
+
+- name: artifactory-repo
+  type: artifactory-resource
+  source:
+    uri: ((artifactory-server))
+    username: ((artifactory-username))
+    password: ((artifactory-password))
+    build_name: ((build-name))
+
+- name: vscode-extension-di-trigger
+  type: s3
+  source:
+    bucket: ((spr-artifacts-s3-bucket-name))
+    regexp: triggers/vscode-extension-di/trigger-(.*)
+    access_key_id: ((spr-s3-access-key-id))
+    secret_access_key: ((spr-s3-secret-access-key))
+    region_name: us-west-1
+
+- name: vscode-spring-cloud-dataflow-trigger
+  type: s3
+  source:
+    bucket: ((spr-artifacts-s3-bucket-name))
+    regexp: triggers/((build-name))/trigger-(.*)
+    access_key_id: ((spr-s3-access-key-id))
+    secret_access_key: ((spr-s3-secret-access-key))
+    region_name: us-west-1
+
+#################################################
+# Jobs
+#################################################
+jobs:
+
+- name: vscode-spring-cloud-dataflow-ci-images
+  plan:
+  - get: ci-images-git-repo
+    trigger: true
+  - put: vscode-spring-cloud-dataflow-ci-image
+    params:
+      build: ci-images-git-repo/ci/images/vscode-spring-cloud-dataflow-ci-image
+      build_args:
+        BRANCH: ((branch))
+
+- name: publish-vscode-spring-cloud-dataflow
+  plan:
+  - get: vscode-spring-cloud-dataflow-ci-image
+    passed:
+    - vscode-spring-cloud-dataflow-ci-images
+  - get: git-repo
+    trigger: true
+  - get: vscode-extension-di-trigger
+    trigger: true
+  - task: pack-publish
+    image: vscode-spring-cloud-dataflow-ci-image
+    file: git-repo/ci/tasks/vscode-spring-cloud-dataflow-publish.yml
+    params:
+      BUILD_NAME: ((build-name))
+  - put: artifactory-repo
+    params:
+      repo: ((artifactory-repo))
+      folder: distribution-repository
+      strip_snapshot_timestamps: false
+      disable_checksum_uploads: true
+      include:
+        - "**/*.vsix"
+    on_success:
+      put: vscode-spring-cloud-dataflow-trigger
+      params:
+        file: triggers/((build-name))/*

@@ -1,0 +1,14 @@
+platform: linux
+inputs:
+- name: git-repo
+outputs:
+- name: distribution-repository
+- name: triggers
+run:
+  path: bash
+  args:
+    - -exc
+    - |
+      ${PWD}/git-repo/ci/scripts/vscode-spring-cloud-dataflow-publish.sh
+params:
+  NPM_TOKEN_REPO_SPRING_IO: ((npm-token-repo-spring-io))
