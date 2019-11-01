@@ -4,6 +4,6 @@ email-to: ["jvalkealahti@pivotal.io"]
 github-repo: "https://github.com/spring-projects-experimental/vscode-spring-cloud-dataflow.git"
 github-repo-raw: "https://raw.githubusercontent.com/spring-projects-experimental/vscode-spring-cloud-dataflow"
 artifactory-server: "https://repo.spring.io/"
-artifactory-repo: "ext-private-local"
+artifactory-repo: "libs-snapshot-local"
 branch: "master"
 build-name: "vscode-spring-cloud-dataflow"
