@@ -8,7 +8,7 @@
 		"type": "git",
 		"url": "https://github.com/spring-projects-experimental/vscode-spring-cloud-dataflow"
 	},
-	"homepage": "https://github.com/spring-projects-experimental/vscode-spring-cloud-dataflow/blob/master/README.adoc",
+	"homepage": "https://github.com/spring-projects-experimental/vscode-spring-cloud-dataflow/blob/master/README.md",
 	"icon": "media/scdficon.png",
 	"engines": {
 		"vscode": "^1.37.0"
