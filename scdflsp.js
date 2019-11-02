@@ -1,12 +1,11 @@
 var fs = require('fs');
 var path = require('path');
 var dir = 'out';
-const mvn = require('./node_modules/maven-repository-manager/dist/index.js');
-const snapshotRepository = new mvn.RemoteRepository({baseUrl: 'https://repo.spring.io/libs-snapshot'});
-const repositoryManager = new mvn.RepositoryManager({remoteRepositories: [snapshotRepository]});
-const artifact = mvn.Artifact.from('org.springframework.cloud:spring-cloud-dataflow-language-server:0.0.1-BUILD-SNAPSHOT');
+var mvn = require('./node_modules/mvn-artifact-download/lib/artifact-download.js');
+
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
 }
-repositoryManager.download(artifact)
-    .then(readable => readable.pipe(fs.createWriteStream(path.resolve(dir, 'spring-cloud-dataflow-language-server.jar'))));
+
+const out = path.resolve(dir);
+mvn.default('org.springframework.cloud:spring-cloud-dataflow-language-server:0.0.1-BUILD-SNAPSHOT', out, 'https://repo.spring.io/libs-snapshot/', 'spring-cloud-dataflow-language-server.jar');
