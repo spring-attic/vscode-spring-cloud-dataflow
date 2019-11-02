@@ -1,0 +1,18 @@
+= Spring Cloud Data Flow VSCode Extension Documentation
+
+_Spring Cloud Data Flow VSCode Extension_ main focus is to ease managing _SCDF_
+environments from a developer perspective and to provide easier way to debug
+_streams_ and _tasks_ at a runtime environments.
+
+== Extension Basics
+
+After extension is activated there is a new view on a activation bar with a _SCDF logo_
+which gives a view into your configured _SCDF_ environments. In this view we're basically
+following what's available in _SCDF UI_ giving separate sections for *apps*, *streams*,
+*tasks* and *jobs*.
+
+image::images/vscode-docs-generic-1.png[]
+
+== Registering Environment
+
+Extension support managing multiple _SCDF_ environments.
