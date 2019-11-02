@@ -17,7 +17,7 @@ import { injectable, inject } from 'inversify';
 import { LanguageServerManager, NotificationManager } from '@pivotal-tools/vscode-extension-core';
 import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
 import { COMMAND_SCDF_STREAMS_DEPLOY, LSP_SCDF_DEPLOY_STREAM } from '../extension-globals';
-import { DeploymentProperties, DataflowStreamDeployParams } from './stream-commands';
+import { DataflowStreamDeployParams } from './stream-commands';
 import { TYPES } from '../types';
 import { ServerRegistrationManager } from '../service/server-registration-manager';
 
@@ -34,17 +34,17 @@ export class StreamsDeployCommand implements Command {
         return COMMAND_SCDF_STREAMS_DEPLOY;
     }
 
-    async execute(name: string, environment: string, properties?: DeploymentProperties) {
+    async execute(params: DataflowStreamDeployParams) {
         const defaultServer = await this.serverRegistrationManager.getDefaultServer();
         if (defaultServer) {
-            const server = environment || defaultServer.name;
-            const params: DataflowStreamDeployParams = {
-                name: name,
-                server: server,
-                properties: properties || {}
+            const p: DataflowStreamDeployParams = {
+                name: params.name,
+                server: params.server || defaultServer.name,
+                properties: params.properties || {}
             };
-            this.languageServerManager.getLanguageClient('scdfs').sendNotification(LSP_SCDF_DEPLOY_STREAM, params);
+            this.languageServerManager.getLanguageClient('scdfs').sendNotification(LSP_SCDF_DEPLOY_STREAM, p);
             this.notificationManager.showMessage('Stream deploy sent');
         }
+        // TODO: notify user about errors or missing env
     }
 }

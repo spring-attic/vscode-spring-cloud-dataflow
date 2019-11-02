@@ -119,6 +119,16 @@
 				"category": "SCDF"
 			},
 			{
+				"command": "vscode-spring-cloud-dataflow.streams.undeploy",
+				"title": "Undeploy Stream",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.streams.destroy",
+				"title": "Destroy Stream",
+				"category": "SCDF"
+			},
+			{
 				"command": "vscode-spring-cloud-dataflow.streams.debugattach",
 				"title": "Debug Attach",
 				"category": "SCDF"
@@ -206,6 +216,14 @@
 					"when": "never"
 				},
 				{
+					"command": "vscode-spring-cloud-dataflow.streams.undeploy",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.destroy",
+					"when": "never"
+				},
+				{
 					"command": "vscode-spring-cloud-dataflow.tasks.log",
 					"when": "never"
 				},
@@ -277,6 +295,18 @@
 				{
 					"command": "vscode-spring-cloud-dataflow.apps.default",
 					"when": "viewItem == definedAppVersion"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.deploy",
+					"when": "viewItem =~ /^(undeployed)DefinedStream$/i"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.undeploy",
+					"when": "viewItem =~ /^(deployed)DefinedStream$/i"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.streams.destroy",
+					"when": "viewItem =~ /^(deployed|deploying|incomplete|failed|undeployed)DefinedStream$/i"
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.streams.show",
@@ -418,6 +448,7 @@
 		"pretest": "npm run compile",
 		"test": "node ./out/test/runTest.js",
 		"scdflsp": "node scdflsp.js",
+		"scdflsplocal": "node scdflsplocal.js",
 		"vsce-package": "vsce package",
 		"build": "npm run scdflsp && npm run vsce-package",
 		"vsix-next": "renamer --find $(echo $npm_package_version) --replace $(echo $npm_package_version)-next.$(git rev-parse --short HEAD) *.vsix"

@@ -19,8 +19,12 @@ import { BaseNode } from './base-node';
 import { ScdfModel } from '../../service/scdf-model';
 import { RuntimeNode } from './runtime-node';
 import { ServerRegistration } from '../../service/server-registration-manager';
+import {
+    DataflowStreamDeployParams, DataflowStreamUndeployParams, DataflowStreamDestroyParams
+} from '../../commands/stream-commands';
 
-export class StreamNode extends BaseNode {
+export class StreamNode extends BaseNode
+        implements DataflowStreamDeployParams, DataflowStreamUndeployParams, DataflowStreamDestroyParams {
 
     constructor(
         label: string,
@@ -32,6 +36,14 @@ export class StreamNode extends BaseNode {
         private readonly registration: ServerRegistration
     ) {
         super(label, description, iconManager, 'DefinedStream');
+    }
+
+    public get name(): string {
+        return this.streamName;
+    }
+
+    public get server(): string {
+        return this.serverId;
     }
 
     public getResourceUri(): Uri {

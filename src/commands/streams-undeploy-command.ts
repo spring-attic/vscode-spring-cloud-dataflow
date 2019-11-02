@@ -33,15 +33,16 @@ export class StreamsUndeployCommand implements Command {
         return COMMAND_SCDF_STREAMS_UNDEPLOY;
     }
 
-    async execute(name: string, environment: string) {
+    async execute(params: DataflowStreamUndeployParams) {
         const defaultServer = await this.serverRegistrationManager.getDefaultServer();
         if (defaultServer) {
-            const server = environment || defaultServer.name;
-            const params: DataflowStreamUndeployParams = {
-                name: name,
+            const server = params.server || defaultServer.name;
+            const p: DataflowStreamUndeployParams = {
+                name: params.name,
                 server: server
             };
-            this.languageServerManager.getLanguageClient('scdfs').sendNotification(LSP_SCDF_UNDEPLOY_STREAM, params);
+            this.languageServerManager.getLanguageClient('scdfs').sendNotification(LSP_SCDF_UNDEPLOY_STREAM, p);
         }
+        // TODO: notify user about errors or missing env
     }
 }

@@ -33,17 +33,17 @@ export class StreamsCreateCommand implements Command {
         return COMMAND_SCDF_STREAMS_CREATE;
     }
 
-    async execute(name: string, environment: string, description: string, definition: string) {
+    async execute(params: DataflowStreamCreateParams) {
         const defaultServer = await this.serverRegistrationManager.getDefaultServer();
         if (defaultServer) {
-            const server = environment || defaultServer.name;
-            const params: DataflowStreamCreateParams = {
-                name: name,
-                description: description,
-                definition: definition,
-                server: server
+            const p: DataflowStreamCreateParams = {
+                name: params.name,
+                description: params.description,
+                definition: params.definition,
+                server: params.server || defaultServer.name
             };
-            this.languageServerManager.getLanguageClient('scdfs').sendNotification(LSP_SCDF_CREATE_STREAM, params);
+            this.languageServerManager.getLanguageClient('scdfs').sendNotification(LSP_SCDF_CREATE_STREAM, p);
         }
+        // TODO: notify user about errors or missing env
     }
 }
