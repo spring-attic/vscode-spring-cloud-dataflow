@@ -427,6 +427,7 @@
 		"@types/mocha": "^5.2.7",
 		"@types/node": "^10.12.21",
 		"@types/vscode": "^1.37.0",
+		"form-data": "^2.5.1",
 		"glob": "^7.1.4",
 		"mocha": "^6.2.0",
 		"mvn-artifact-download": "^4.0.0",
