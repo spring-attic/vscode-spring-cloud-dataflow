@@ -451,7 +451,7 @@
 		"scdflsplocal": "node scdflsplocal.js",
 		"vsce-package": "vsce package",
 		"build": "npm run scdflsp && npm run vsce-package",
-		"vsix-next": "renamer --find $(echo $npm_package_version) --replace $(echo $npm_package_version)-next.$(git rev-parse --short HEAD) *.vsix"
+		"vsix-next": "renamer --find $(echo $npm_package_version) --replace $(echo $npm_package_version)-next.$(date '+%Y%m%d.%H%M%S').$(git rev-parse --short HEAD) *.vsix"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
