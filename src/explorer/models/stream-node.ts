@@ -65,6 +65,7 @@ export class StreamNode extends BaseNode {
                             application.name,
                             this.streamName,
                             application.id,
+                            application.name,
                             this.getIconManager(),
                             application.instances,
                             this.registration));

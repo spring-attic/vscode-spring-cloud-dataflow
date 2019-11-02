@@ -15,9 +15,10 @@
  */
 import { injectable, multiInject } from 'inversify';
 import { ServerRegistration } from '../service/server-registration-manager';
-import { DefaultStreamDebugHandler, DebugHandler, DefaultTaskDebugHandler } from './debug-handler';
+import { DebugHandler, DefaultStreamDebugHandler, DefaultTaskDebugHandler } from './debug-handler';
 import { TYPES } from '../types';
 import { DebugProvider } from './debug-provider';
+import { ScdfModel } from '../service/scdf-model';
 
 @injectable()
 export class DebugManager {
@@ -26,22 +27,64 @@ export class DebugManager {
         @multiInject(TYPES.DebugProvider) private debugProviders: DebugProvider[]
     ) {}
 
-    public getStreamDebugHandler(
-        streamName: string,
-        appName: string,
-        serverRegistration: ServerRegistration
-    ): DebugHandler {
-        // find debug provider which supports our env
-        const debugProvider = this.debugProviders[0];
-        return new DefaultStreamDebugHandler(serverRegistration, streamName, appName, debugProvider);
-    }
-
     public getTaskDebugHandler(
         executionId: number,
         serverRegistration: ServerRegistration
-    ): DebugHandler {
-        // find debug provider which supports our env
-        const debugProvider = this.debugProviders[0];
-        return new DefaultTaskDebugHandler(serverRegistration, executionId, debugProvider);
+    ): Thenable<DebugHandler> {
+        return new Promise(async (resolve, reject) => {
+            let port: number | undefined;
+            // TODO: find debug provider which supports our env
+            const debugProvider = this.debugProviders[0];
+
+            const model = new ScdfModel(serverRegistration);
+            const execution = await model.getTaskExecution(executionId);
+
+            const props = execution.deploymentProperties;
+            if (props) {
+                const regex = /deployer\.\w+\.local\.debug-port/;
+                for (const key in props) {
+                    if (key.match(regex)) {
+                        const portString = props[key];
+                        if (portString) {
+                            port = +portString;
+                        }
+                    break;
+                    }
+                }
+            }
+            if (port) {
+                resolve(new DefaultTaskDebugHandler(execution, executionId, port, debugProvider));
+            } else {
+                reject(new Error(`Debug port unknown for task execution ${executionId}`));
+            }
+        });
     }
+
+    public getStreamDebugHandler(
+        streamName: string,
+        appType: string,
+        serverRegistration: ServerRegistration
+    ): Thenable<DebugHandler> {
+        return new Promise(async (resolve, reject) => {
+            let port: number | undefined;
+            // TODO: find debug provider which supports our env
+            const debugProvider = this.debugProviders[0];
+            const model = new ScdfModel(serverRegistration);
+            const deployment = model.getStreamDeployment(streamName);
+            const entry = await deployment;
+            const props = entry.deploymentProperties[appType];
+            if (props) {
+                const portString = props['spring.cloud.deployer.local.debug-port'];
+                if (portString) {
+                    port = +portString;
+                }
+            }
+            if (port) {
+                resolve(new DefaultStreamDebugHandler(streamName, appType, port, debugProvider));
+            } else {
+                reject(new Error(`Debug port unknown for app ${appType}`));
+            }
+        });
+    }
+
 }

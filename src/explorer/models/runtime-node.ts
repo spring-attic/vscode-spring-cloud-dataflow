@@ -25,6 +25,7 @@ export class RuntimeNode extends BaseNode {
         label: string,
         public readonly streamName: string,
         public readonly appName: string,
+        public readonly appType: string,
         iconManager: IconManager,
         private readonly instances: ScdfStreamRuntimeApplicationInstanceEntry[],
         public readonly registration: ServerRegistration
@@ -47,6 +48,7 @@ export class RuntimeNode extends BaseNode {
                 instance.id,
                 this.streamName,
                 this.appName,
+                this.appType,
                 this.getIconManager(),
                 this.registration));
         });

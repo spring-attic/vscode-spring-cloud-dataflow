@@ -15,9 +15,8 @@
  */
 
 import { DebugConfiguration } from 'vscode';
-import { ServerRegistration } from '../service/server-registration-manager';
 import { DebugProvider } from './debug-provider';
-import { ScdfModel } from '../service/scdf-model';
+import { ScdfTaskExecutionEntry } from '../service/scdf-model';
 
 export interface DebugHandler {
 
@@ -28,27 +27,21 @@ export interface DebugHandler {
 export class DefaultStreamDebugHandler implements DebugHandler {
 
     constructor(
-        private serverRegistration: ServerRegistration,
         private streamName: string,
         private appName: string,
+        private port: number,
         private debugProvider: DebugProvider
     ) {}
 
     public async attach(): Promise<void> {
-        const model = new ScdfModel(this.serverRegistration);
-        const deployment = model.getStreamDeployment(this.streamName);
-        const entry = await deployment;
         const name = `Debug (Attach) - ${this.streamName} ${this.appName}`;
-        const port = +entry.deploymentProperties.log['spring.cloud.deployer.local.debug-port'];
-
         const config: DebugConfiguration = {
             type: 'java',
             name: name,
             request: 'attach',
             hostName: "localhost",
-            port: port
+            port: this.port
         };
-
         this.debugProvider.startDebug(config);
     }
 }
@@ -56,25 +49,21 @@ export class DefaultStreamDebugHandler implements DebugHandler {
 export class DefaultTaskDebugHandler implements DebugHandler {
 
     constructor(
-        private serverRegistration: ServerRegistration,
+        private execution: ScdfTaskExecutionEntry,
         private executionId: number,
+        private port: number,
         private debugProvider: DebugProvider
     ) {}
 
     public async attach(): Promise<void> {
-        const model = new ScdfModel(this.serverRegistration);
-        const execution = await model.getTaskExecution(this.executionId);
-        const name = `Debug (Attach) - ${execution.taskName} ${this.executionId}`;
-        const port = +execution.deploymentProperties['deployer.timestamp.local.debug-port'];
-
+        const name = `Debug (Attach) - ${this.execution.taskName} ${this.executionId}`;
         const config: DebugConfiguration = {
             type: 'java',
             name: name,
             request: 'attach',
             hostName: "localhost",
-            port: port
+            port: this.port
         };
-
         this.debugProvider.startDebug(config);
     }
 }

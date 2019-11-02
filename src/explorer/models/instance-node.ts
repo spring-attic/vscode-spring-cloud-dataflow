@@ -24,6 +24,7 @@ export class InstanceNode extends BaseNode {
         label: string,
         public readonly streamName: string,
         public readonly appName: string,
+        public readonly appType: string,
         iconManager: IconManager,
         public readonly registration: ServerRegistration
     ) {

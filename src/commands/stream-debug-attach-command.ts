@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 import { injectable, inject } from 'inversify';
-import { Command } from '@pivotal-tools/vscode-extension-di';
+import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
 import { COMMAND_SCDF_STREAM_DEBUG_ATTACH } from '../extension-globals';
 import { TYPES } from '../types';
 import { InstanceNode } from '../explorer/models/instance-node';
 import { DebugManager } from '../debug/debug-manager';
+import { NotificationManager } from '@pivotal-tools/vscode-extension-core';
 
 @injectable()
 export class StreamDebugAttachCommand implements Command {
 
     constructor(
-        @inject(TYPES.DebugManager) private debugManager: DebugManager
+        @inject(TYPES.DebugManager) private debugManager: DebugManager,
+        @inject(DITYPES.NotificationManager) private notificationManager: NotificationManager
     ) {}
 
     get id() {
@@ -33,9 +35,14 @@ export class StreamDebugAttachCommand implements Command {
 
     async execute(node: InstanceNode) {
         const streamName = node.streamName;
-        const appName = node.appName;
+        const appType = node.appType;
         const serverRegistration = node.registration;
-        const debugHandler = this.debugManager.getStreamDebugHandler(streamName, appName, serverRegistration);
-        debugHandler.attach();
+
+        this.debugManager.getStreamDebugHandler(streamName, appType, serverRegistration)
+            .then(handler => {
+                handler.attach();
+            }, error => {
+                this.notificationManager.showMessage('Unable to start debug');
+            });
     }
 }
