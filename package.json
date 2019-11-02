@@ -6,8 +6,9 @@
 	"publisher": "Pivotal",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/jvalkeal/vscode-spring-cloud-dataflow-wip"
+		"url": "https://github.com/spring-projects-experimental/vscode-spring-cloud-dataflow"
 	},
+	"homepage": "https://github.com/spring-projects-experimental/vscode-spring-cloud-dataflow/blob/master/README.adoc",
 	"icon": "media/scdficon.png",
 	"engines": {
 		"vscode": "^1.37.0"
