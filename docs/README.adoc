@@ -189,7 +189,7 @@ image::images/vscode-docs-debug-tasks-1.gif[]
 What happened in this debug session:
 
 - Simple _timestamp_ task is created.
-- We have a sources for _timestgamp task_ in a workspace.
+- We have a sources for _timestamp task_ in a workspace.
 - We go to source where actual log entry happens and put a breakpoint there.
 - Task is launced with instruction to suspend a session.
 - Extension is able to detect running debug settings from a task app instance.
