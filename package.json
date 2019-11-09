@@ -150,6 +150,11 @@
 				"category": "SCDF"
 			},
 			{
+				"command": "vscode-spring-cloud-dataflow.tasks.execution.delete",
+				"title": "Delete",
+				"category": "SCDF"
+			},
+			{
 				"command": "vscode-spring-cloud-dataflow.tasks.debugattach",
 				"title": "Debug Attach",
 				"category": "SCDF"
@@ -230,6 +235,10 @@
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.tasks.execution.inspect",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.execution.delete",
 					"when": "never"
 				},
 				{
@@ -331,6 +340,10 @@
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.tasks.execution.inspect",
+					"when": "viewItem == executedTaskInstance"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.execution.delete",
 					"when": "viewItem == executedTaskInstance"
 				},
 				{

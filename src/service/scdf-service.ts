@@ -114,6 +114,15 @@ export class ScdfService {
         });
     }
 
+    public deleteTaskExecution(registration: ServerRegistration, executionId: number): Thenable<void> {
+        return new Promise(async (resolve, reject) => {
+                await axios.delete(registration.url + '/tasks/executions/' + executionId + '?action=REMOVE_DATA', {
+                    auth: registration.credentials
+                });
+                resolve();
+        });
+    }
+
     public getJobs(registration: ServerRegistration): Thenable<ScdfJobEntry[]> {
         return new Promise(async (resolve, reject) => {
             try {

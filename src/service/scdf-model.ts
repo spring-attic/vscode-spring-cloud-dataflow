@@ -180,6 +180,10 @@ export class ScdfModel {
         return this.scdfService.getTaskExecution(this.registration, executionId);
     }
 
+    public deleteTaskExecution(executionId: number): Thenable<void> {
+        return this.scdfService.deleteTaskExecution(this.registration, executionId);
+    }
+
     public getJobs(): Thenable<ScdfJobEntry[]> {
         return this.scdfService.getJobs(this.registration);
     }

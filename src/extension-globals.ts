@@ -49,6 +49,7 @@ export const COMMAND_SCDF_TASKS_LAUNCH: string = 'vscode-spring-cloud-dataflow.t
 export const COMMAND_SCDF_TASKS_DESTROY: string = 'vscode-spring-cloud-dataflow.tasks.destroy';
 export const COMMAND_SCDF_TASKS_DEBUG_ATTACH: string = 'vscode-spring-cloud-dataflow.tasks.debugattach';
 export const COMMAND_SCDF_TASKS_EXECUTION_INSPECT: string = 'vscode-spring-cloud-dataflow.tasks.execution.inspect';
+export const COMMAND_SCDF_TASKS_EXECUTION_DELETE: string = 'vscode-spring-cloud-dataflow.tasks.execution.delete';
 export const COMMAND_SCDF_JOBS_EXECUTION_INSPECT: string = 'vscode-spring-cloud-dataflow.jobs.execution.inspect';
 export const COMMAND_SCDF_STEPS_EXECUTION_INSPECT: string = 'vscode-spring-cloud-dataflow.steps.execution.inspect';
 export const COMMAND_SCDF_APPS_REGISTERALL: string = 'vscode-spring-cloud-dataflow.apps.registerall';
