@@ -1,0 +1,6 @@
+[[vscode-manage-jobs]]
+== Manage Jobs
+
+_Jobs_ section has a navigator which allows you to browse existing jobs.
+
+image::images/vscode-docs-jobs-explorer-1.png[]

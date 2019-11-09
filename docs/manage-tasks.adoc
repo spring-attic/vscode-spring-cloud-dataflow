@@ -1,0 +1,35 @@
+[[vscode-manage-tasks]]
+== Manage Tasks
+
+_Tasks_ section has a navigator which allows you to browse existing tasks.
+
+image::images/vscode-docs-tasks-explorer-1.png[]
+
+=== Task Language
+
+_SCDF Task Language_ is a *scdfs* format for defining task definition and their
+launch configurations.
+
+image::images/vscode-docs-tasks-language-1.gif[]
+
+_Task Definition_ can have associated metadata sections which either adds instructions
+to main definition or its launch configuration. For example it's possible to define
+_@name_ to define a stream name or _@desc_ to define a stream description.
+
+For deploy sections it's also possible to define generic deployment properties using
+_@prop_ tag and a _@arg_ tag to define tasks command line arguments.
+
+[source]
+----
+# launch with a command line arg
+-- @arg --timestamp.format=yyyy
+
+# launch with debug suspend
+# we need to suspend task to allow time to connect to it
+-- @prop deployer.timestamp.local.debug-port=20100
+-- @prop deployer.timestamp.local.debug-suspend=y
+
+# Main task definition
+-- @name task
+timestamp
+----

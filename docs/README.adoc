@@ -32,4 +32,8 @@ include::manage-applications.adoc[]
 
 include::manage-streams.adoc[]
 
+include::manage-tasks.adoc[]
+
+include::manage-jobs.adoc[]
+
 include::install-extension.adoc[]
