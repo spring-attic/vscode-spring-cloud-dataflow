@@ -44,6 +44,14 @@ resources:
     password: ((artifactory-password))
     build_name: ((build-name))
 
+- name: spring-cloud-dataflow-language-server-trigger
+  type: artifactory-resource
+  source:
+    uri: ((artifactory-server))
+    username: ((artifactory-username))
+    password: ((artifactory-password))
+    build_name: ((scdf-lsp-server-build-name))
+
 - name: vscode-extension-di-trigger
   type: s3
   source:
@@ -86,6 +94,10 @@ jobs:
     trigger: true
   - get: vscode-extension-di-trigger
     trigger: true
+  - get: spring-cloud-dataflow-language-server-trigger
+    trigger: true
+    params:
+      download_artifacts: false
   - task: pack-publish
     image: vscode-spring-cloud-dataflow-ci-image
     file: git-repo/ci/tasks/vscode-spring-cloud-dataflow-publish.yml
