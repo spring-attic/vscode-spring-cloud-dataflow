@@ -1,0 +1,14 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Extension Basics
+
+After extension is activated there is a new view on a activation bar with a _SCDF logo_
+which gives a view into your configured _SCDF_ environments. In this view we're basically
+following what's available in _SCDF UI_ giving separate sections for *apps*, *streams*,
+*tasks* and *jobs*.

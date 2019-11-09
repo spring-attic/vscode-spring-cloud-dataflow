@@ -1,0 +1,29 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Registering Environment
+
+Extension support managing multiple _SCDF_ environments. _Register Spring Cloud Data Flow Server_
+can be either launched from _Apps_ context menu:
+
+image::images/vscode-docs-env-register-1.png[]
+
+Or from a global command palette:
+
+image::images/vscode-docs-env-register-2.png[]
+
+You need to give a server address, environment name and optional credentials if
+environment is secured.
+
+image::images/vscode-docs-env-register-3.gif[]
+
+[IMPORTANT]
+====
+Credentials are stored in an OS keyring meaning you don't see those leaking
+into VSCode's configuration files.
+====
