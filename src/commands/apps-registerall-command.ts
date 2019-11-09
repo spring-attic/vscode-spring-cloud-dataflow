@@ -15,13 +15,14 @@
  */
 import { Uri, window } from 'vscode';
 import { injectable, inject } from 'inversify';
-import { Command } from '@pivotal-tools/vscode-extension-di';
+import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
 import { COMMAND_SCDF_APPS_REGISTERALL } from '../extension-globals';
 import { ServerRegistrationManager } from '../service/server-registration-manager';
 import { TYPES } from '../types';
 import { ScdfModel } from '../service/scdf-model';
 import { AppsExplorerProvider } from '../explorer/apps-explorer-provider';
 import { StreamsExplorerProvider } from '../explorer/streams-explorer-provider';
+import { NotificationManager } from '@pivotal-tools/vscode-extension-core';
 
 @injectable()
 export class AppsRegisterAllCommand implements Command {
@@ -29,7 +30,8 @@ export class AppsRegisterAllCommand implements Command {
     constructor(
         @inject(TYPES.ServerRegistrationManager) private serverRegistrationManager: ServerRegistrationManager,
         @inject(TYPES.AppsExplorerProvider) private appsExplorerProvider: AppsExplorerProvider,
-        @inject(TYPES.StreamsExplorerProvider) private streamsExplorerProvider: StreamsExplorerProvider
+        @inject(TYPES.StreamsExplorerProvider) private streamsExplorerProvider: StreamsExplorerProvider,
+        @inject(DITYPES.NotificationManager) private notificationManager: NotificationManager,
     ) {}
 
     get id() {
@@ -57,6 +59,7 @@ export class AppsRegisterAllCommand implements Command {
         if (defaultServer) {
             const model = new ScdfModel(defaultServer);
             await model.registerApps(uris);
+            this.notificationManager.showMessage(`Registration request for new apps sent`);
             this.appsExplorerProvider.refresh();
             this.streamsExplorerProvider.refresh();
         }
