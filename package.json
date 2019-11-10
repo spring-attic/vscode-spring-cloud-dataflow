@@ -364,7 +364,7 @@
 			{
 				"id": "scdfs",
 				"aliases": [
-					"Spring Cloud Data Flow Stream Language"
+					"SCDFS"
 				],
 				"extensions": [
 					".scdfs"
@@ -373,7 +373,7 @@
 			{
 				"id": "scdfsr",
 				"aliases": [
-					"SCDF Stream Runtime"
+					"SCDFSR"
 				],
 				"extensions": [
 					".scdfsr"
@@ -382,7 +382,7 @@
 			{
 				"id": "scdft",
 				"aliases": [
-					"Spring Cloud Data Flow Task Language"
+					"SCDFT"
 				],
 				"extensions": [
 					".scdft"
@@ -391,7 +391,7 @@
 			{
 				"id": "scdfa",
 				"aliases": [
-					"Spring Cloud Data Flow App Import Language"
+					"SCDFA"
 				],
 				"extensions": [
 					".scdfa"
