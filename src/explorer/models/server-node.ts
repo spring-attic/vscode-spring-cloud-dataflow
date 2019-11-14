@@ -41,7 +41,7 @@ export class ServerNode extends BaseNode {
     constructor(
         iconManager: IconManager,
         public readonly registration: ServerRegistration,
-        private readonly mode: ServerMode
+        public readonly mode: ServerMode
     ) {
         super(registration.name, registration.url, iconManager, 'serverRegistration');
     }

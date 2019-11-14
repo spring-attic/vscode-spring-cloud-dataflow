@@ -71,6 +71,11 @@
 				"category": "SCDF"
 			},
 			{
+				"command": "vscode-spring-cloud-dataflow.server.dashboard",
+				"title": "Open in Dataflow UI",
+				"category": "SCDF"
+			},
+			{
 				"command": "vscode-spring-cloud-dataflow.log.close.all",
 				"title": "Close All Logs",
 				"category": "SCDF"
@@ -210,6 +215,10 @@
 					"when": "never"
 				},
 				{
+					"command": "vscode-spring-cloud-dataflow.server.dashboard",
+					"when": "never"
+				},
+				{
 					"command": "vscode-spring-cloud-dataflow.apps.unregister",
 					"when": "never"
 				},
@@ -296,6 +305,10 @@
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.server.default",
+					"when": "viewItem == serverRegistration"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.server.dashboard",
 					"when": "viewItem == serverRegistration"
 				},
 				{

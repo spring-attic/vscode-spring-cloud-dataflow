@@ -26,6 +26,7 @@ import { ServerRegistrationManager } from '../service/server-registration-manage
 import { ServerNotifyCommand } from './server-notify-command';
 import { ServerDefaultCommand } from './server-default-command';
 import { ServerChooseCommand } from './server-choose-command';
+import { ServerDashboardCommand } from './server-dashboard-command';
 import { AppsRegisterCommand } from './apps-register-command';
 import { AppsUnregisterCommand } from './apps-unregister-command';
 import { StreamsLogCommand } from './streams-log-command';
@@ -60,6 +61,7 @@ const commandsContainerModule = new ContainerModule((bind) => {
     bind<Command>(DITYPES.Command).to(ServerNotifyCommand);
     bind<Command>(DITYPES.Command).to(ServerDefaultCommand);
     bind<Command>(DITYPES.Command).to(ServerChooseCommand);
+    bind<Command>(DITYPES.Command).to(ServerDashboardCommand);
     bind<Command>(DITYPES.Command).to(TasksLogCommand);
     bind<Command>(DITYPES.Command).to(TasksCreateCommand);
     bind<Command>(DITYPES.Command).to(TasksLaunchCommand);
