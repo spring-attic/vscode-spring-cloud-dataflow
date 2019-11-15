@@ -19,6 +19,7 @@
 export const EXTENSION_ID: string = 'vscode-spring-cloud-dataflow';
 export const CONFIG_PREFIX: string = 'scdf';
 export const CONFIG_SCDF_NOTIFICATION_LOCATION: string = CONFIG_PREFIX + '.notification.location';
+export const CONFIG_SCDF_APPS_IMPORTS: string = CONFIG_PREFIX + '.apps.imports';
 export const LANGUAGE_SCDF_STREAM_PREFIX: string = 'scdfs';
 export const LANGUAGE_SCDF_STREAM_RUNTIME_PREFIX: string = 'scdfsr';
 export const LANGUAGE_SCDF_TASK_PREFIX: string = 'scdft';
@@ -57,6 +58,7 @@ export const COMMAND_SCDF_APPS_REGISTERALL: string = 'vscode-spring-cloud-datafl
 export const COMMAND_SCDF_APPS_REGISTER: string = 'vscode-spring-cloud-dataflow.apps.register';
 export const COMMAND_SCDF_APPS_UNREGISTER: string = 'vscode-spring-cloud-dataflow.apps.unregister';
 export const COMMAND_SCDF_APPS_DEFAULT: string = 'vscode-spring-cloud-dataflow.apps.default';
+export const COMMAND_SCDF_APPS_OPEN_IMPORT: string = 'vscode-spring-cloud-dataflow.apps.open.import';
 export const LSP_SCDF_CREATE_STREAM: string = CONFIG_PREFIX + '/createStream';
 export const LSP_SCDF_DEPLOY_STREAM: string = CONFIG_PREFIX + '/deployStream';
 export const LSP_SCDF_UNDEPLOY_STREAM: string = CONFIG_PREFIX + '/undeployStream';

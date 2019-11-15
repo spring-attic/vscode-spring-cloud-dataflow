@@ -48,6 +48,7 @@ import { StepsExecutionInspectCommand } from './steps-execution-inspect-command'
 import { ScdfLogCloseStreamCommand } from './scdf-log-close-stream-command';
 import { ScdfLogCloseTaskCommand } from './scdf-log-close-task-command';
 import { TasksExecutionDeleteCommand } from './tasks-execution-delete-command';
+import { AppsOpenImportCommand } from './apps-open-import-command';
 
 const commandsContainerModule = new ContainerModule((bind) => {
     bind<ServerRegistrationManager>(TYPES.ServerRegistrationManager).to(ServerRegistrationManager).inSingletonScope();
@@ -75,6 +76,7 @@ const commandsContainerModule = new ContainerModule((bind) => {
     bind<Command>(DITYPES.Command).to(AppsRegisterAllCommand);
     bind<Command>(DITYPES.Command).to(AppsUnregisterCommand);
     bind<Command>(DITYPES.Command).to(AppsDefaultCommand);
+    bind<Command>(DITYPES.Command).to(AppsOpenImportCommand);
     bind<Command>(DITYPES.Command).to(StreamsLogCommand);
     bind<Command>(DITYPES.Command).to(StreamsAppLogCommand);
     bind<Command>(DITYPES.Command).to(StreamsShowCommand);

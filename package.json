@@ -110,6 +110,11 @@
 				"category": "SCDF"
 			},
 			{
+				"command": "vscode-spring-cloud-dataflow.apps.open.import",
+				"title": "Open App Import",
+				"category": "SCDF"
+			},
+			{
 				"command": "vscode-spring-cloud-dataflow.streams.show",
 				"title": "Show Stream",
 				"category": "SCDF"
@@ -177,7 +182,7 @@
 		],
 		"configuration": [
 			{
-				"title": "SCDF Notification Settings",
+				"title": "SCDF",
 				"properties": {
 					"scdf.notification.location": {
 						"type": "string",
@@ -188,6 +193,50 @@
 						"default": "notifications",
 						"description": "Where notifications are shown",
 						"scope": "window"
+					},
+					"scdf.apps.imports": {
+						"type":"array",
+						"default": [
+							{
+								"uri": "https://dataflow.spring.io/kafka-maven-latest",
+								"desc": "Stream Apps (Kafka/Maven)"
+							},
+							{
+								"uri": "https://dataflow.spring.io/kafka-docker-latest",
+								"desc": "Stream Apps (Kafka/Docker)"
+							},
+							{
+								"uri": "https://dataflow.spring.io/rabbitmq-maven-latest",
+								"desc": "Stream Apps (RabbitMQ/Maven)"
+							},
+							{
+								"uri": "https://dataflow.spring.io/rabbitmq-docker-latest",
+								"desc": "Stream Apps (RabbitMQ/Docker)"
+							},
+							{
+								"uri": "https://dataflow.spring.io/task-maven-latest",
+								"desc": "Task Apps (Maven)"
+							},
+							{
+								"uri": "https://dataflow.spring.io/task-docker-latest",
+								"desc": "Task Apps (Docker)"
+							}
+						],
+						"items": {
+							"required": [
+								"uri"
+							],
+							"properties": {
+								"uri": {
+									"type": "string",
+									"description": "Uri of an app import"
+								},
+								"desc": {
+									"type": "string",
+									"description": "Description of an uri"
+								}
+							}
+						}
 					}
 				}
 			}
@@ -275,6 +324,10 @@
 			"view/title": [
 				{
 					"command": "vscode-spring-cloud-dataflow.server.register",
+					"when": "view == scdfApps"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.open.import",
 					"when": "view == scdfApps"
 				},
 				{
