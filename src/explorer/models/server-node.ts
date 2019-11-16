@@ -122,6 +122,7 @@ export class ServerNode extends BaseNode {
 
     private async getTaskNodes(): Promise<TaskNode[]> {
         const scdfModel = new ScdfModel(this.registration);
+        const serverId = this.registration.name;
         return scdfModel.getTasks().then(tasks =>
             tasks.map(app =>
                 new TaskNode(
@@ -129,6 +130,7 @@ export class ServerNode extends BaseNode {
                     app.status,
                     app.name,
                     this.getIconManager(),
+                    serverId,
                     this.registration)));
     }
 

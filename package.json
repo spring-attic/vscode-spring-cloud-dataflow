@@ -150,6 +150,16 @@
 				"category": "SCDF"
 			},
 			{
+				"command": "vscode-spring-cloud-dataflow.tasks.launch",
+				"title": "Launch Task",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.tasks.destroy",
+				"title": "Destroy Task",
+				"category": "SCDF"
+			},
+			{
 				"command": "vscode-spring-cloud-dataflow.tasks.log",
 				"title": "Show Task Log",
 				"category": "SCDF"
@@ -294,6 +304,14 @@
 					"when": "never"
 				},
 				{
+					"command": "vscode-spring-cloud-dataflow.tasks.launch",
+					"when": "never"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.destroy",
+					"when": "never"
+				},
+				{
 					"command": "vscode-spring-cloud-dataflow.tasks.log",
 					"when": "never"
 				},
@@ -405,6 +423,14 @@
 				{
 					"command": "vscode-spring-cloud-dataflow.streams.app.log",
 					"when": "viewItem == runningStreamAppInstance"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.launch",
+					"when": "viewItem == definedTask"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.tasks.destroy",
+					"when": "viewItem == definedTask"
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.tasks.log",

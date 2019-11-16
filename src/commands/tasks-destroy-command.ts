@@ -33,15 +33,15 @@ export class TasksDestroyCommand implements Command {
         return COMMAND_SCDF_TASKS_DESTROY;
     }
 
-    async execute(name: string, environment: string) {
+    async execute(params: DataflowTaskDestroyParams) {
         const defaultServer = await this.serverRegistrationManager.getDefaultServer();
         if (defaultServer) {
-            const server = environment || defaultServer.name;
-            const params: DataflowTaskDestroyParams = {
-                name: name,
+            const server = params.server || defaultServer.name;
+            const p: DataflowTaskDestroyParams = {
+                name: params.name,
                 server: server
             };
-            this.languageServerManager.getLanguageClient('scdft').sendNotification(LSP_SCDF_DESTROY_TASK, params);
+            this.languageServerManager.getLanguageClient('scdft').sendNotification(LSP_SCDF_DESTROY_TASK, p);
         }
     }
 }

@@ -18,17 +18,36 @@ import { BaseNode } from './base-node';
 import { ScdfModel } from '../../service/scdf-model';
 import { ServerRegistration } from '../../service/server-registration-manager';
 import { ExecutionNode } from './execution-node';
+import { DataflowTaskLaunchParams, DataflowTaskDestroyParams, DeploymentProperties } from '../../commands/stream-commands';
 
-export class TaskNode extends BaseNode {
+export class TaskNode extends BaseNode
+        implements DataflowTaskLaunchParams, DataflowTaskDestroyParams {
 
     constructor(
         label: string,
         public readonly description: string | undefined,
         public readonly taskName: string,
         iconManager: IconManager,
+        private readonly serverId: string,
         private readonly registration: ServerRegistration
     ) {
         super(label, description, iconManager, 'definedTask');
+    }
+
+    public get name(): string {
+        return this.taskName;
+    }
+
+    public get server(): string {
+        return this.serverId;
+    }
+
+    public get properties(): DeploymentProperties {
+        return {};
+    }
+
+    public get arguments(): string[] {
+        return [];
     }
 
     protected getThemedIconPath(): ThemedIconPath {

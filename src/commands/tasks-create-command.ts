@@ -33,17 +33,17 @@ export class TasksCreateCommand implements Command {
         return COMMAND_SCDF_TASKS_CREATE;
     }
 
-    async execute(name: string, environment: string, description: string, definition: string) {
+    async execute(params: DataflowTaskCreateParams) {
         const defaultServer = await this.serverRegistrationManager.getDefaultServer();
         if (defaultServer) {
-            const server = environment || defaultServer.name;
-            const params: DataflowTaskCreateParams = {
-                name: name,
-                description: description,
-                definition: definition,
+            const server = params.server || defaultServer.name;
+            const p: DataflowTaskCreateParams = {
+                name: params.name,
+                description: params.description,
+                definition: params.definition,
                 server: server
             };
-            this.languageServerManager.getLanguageClient('scdft').sendNotification(LSP_SCDF_CREATE_TASK, params);
+            this.languageServerManager.getLanguageClient('scdft').sendNotification(LSP_SCDF_CREATE_TASK, p);
         }
     }
 }

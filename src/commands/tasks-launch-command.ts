@@ -19,7 +19,7 @@ import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
 import { TYPES } from '../types';
 import { COMMAND_SCDF_TASKS_LAUNCH, LSP_SCDF_LAUNCH_TASK } from '../extension-globals';
 import { ServerRegistrationManager } from '../service/server-registration-manager';
-import { DataflowTaskLaunchParams, DeploymentProperties } from './stream-commands';
+import { DataflowTaskLaunchParams } from './stream-commands';
 
 @injectable()
 export class TasksLaunchCommand implements Command {
@@ -34,17 +34,17 @@ export class TasksLaunchCommand implements Command {
         return COMMAND_SCDF_TASKS_LAUNCH;
     }
 
-    async execute(name: string, environment: string, properties?: DeploymentProperties, args?: string[]) {
+    async execute(params: DataflowTaskLaunchParams) {
         const defaultServer = await this.serverRegistrationManager.getDefaultServer();
         if (defaultServer) {
-            const server = environment || defaultServer.name;
-            const params: DataflowTaskLaunchParams = {
-                name: name,
+            const server = params.server || defaultServer.name;
+            const p: DataflowTaskLaunchParams = {
+                name: params.name,
                 server: server,
-                properties: properties || {},
-                arguments: args || []
+                properties: params.properties || {},
+                arguments: params.arguments || []
             };
-            this.languageServerManager.getLanguageClient('scdft').sendNotification(LSP_SCDF_LAUNCH_TASK, params);
+            this.languageServerManager.getLanguageClient('scdft').sendNotification(LSP_SCDF_LAUNCH_TASK, p);
             this.notificationManager.showMessage('Task launch sent');
         }
     }
