@@ -360,14 +360,26 @@
 					"group": "navigation"
 				},
 				{
+					"command": "vscode-spring-cloud-dataflow.log.close.all",
+					"when": "view == scdfApps"
+				},
+				{
 					"command": "vscode-spring-cloud-dataflow.explorer.refresh",
 					"when": "view == scdfStreams",
 					"group": "navigation"
 				},
 				{
+					"command": "vscode-spring-cloud-dataflow.log.close.stream",
+					"when": "view == scdfStreams"
+				},
+				{
 					"command": "vscode-spring-cloud-dataflow.explorer.refresh",
 					"when": "view == scdfTasks",
 					"group": "navigation"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.log.close.task",
+					"when": "view == scdfTasks"
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.explorer.refresh",
