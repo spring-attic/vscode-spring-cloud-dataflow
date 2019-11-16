@@ -142,7 +142,7 @@ export class ScdfModel {
     private scdfService: ScdfService;
 
     constructor(readonly registration: ServerRegistration) {
-        this.scdfService = new ScdfService();
+        this.scdfService = new ScdfService(registration);
     }
 
     public getApps(): Thenable<ScdfAppEntry[]> {

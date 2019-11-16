@@ -184,6 +184,12 @@
 			{
 				"title": "SCDF",
 				"properties": {
+					"scdf.connection.trustssl": {
+						"type": "boolean",
+						"default": false,
+						"description": "Trust invalid ssl certificates.",
+						"scope": "window"
+					},
 					"scdf.notification.location": {
 						"type": "string",
 						"enum": [

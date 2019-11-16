@@ -13,32 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import axios from 'axios';
+import { workspace } from 'vscode';
+import axios, { AxiosInstance } from 'axios';
+import * as https from 'https';
 import * as FormData from 'form-data';
 import {
     ScdfStreamEntry, ScdfAppEntry, ScdfStreamDeploymentEntry, ScdfStreamRuntimeEntry, ScdfStreamLogs, ScdfTaskEntry,
     ScdfTaskExecutionEntry, ScdfJobEntry, ScdfJobExecutionEntry, ScdfStepExecutionEntry
 } from './scdf-model';
 import { ServerRegistration } from './server-registration-manager';
+import { CONFIG_SCDF_CONNECTION_TRUSTSSL } from '../extension-globals';
 
 export class ScdfService {
 
+    private instance: AxiosInstance;
+
+    constructor(registration: ServerRegistration) {
+        const trustssl: boolean = workspace.getConfiguration().get(CONFIG_SCDF_CONNECTION_TRUSTSSL, false);
+        this.instance = axios.create({
+            auth: registration.credentials,
+            httpsAgent: new https.Agent({
+              rejectUnauthorized: !trustssl
+            })
+          });
+    }
+
     public getStreamDsl(registration: ServerRegistration, streamName: string): Thenable<ScdfStreamEntry> {
         return new Promise(async (resolve, reject) => {
-            const response = await axios.get(
-                registration.url + '/streams/definitions/' + streamName, {
-                    auth: registration.credentials
-            });
+            const response = await this.instance.get(
+                registration.url + '/streams/definitions/' + streamName);
             resolve((response.data as ScdfStreamEntry));
         });
     }
 
     public getStreamDeployment(registration: ServerRegistration, streamName: string): Thenable<ScdfStreamDeploymentEntry> {
         return new Promise(async (resolve, reject) => {
-            const response = await axios.get(
-                registration.url + '/streams/deployments/' + streamName, {
-                    auth: registration.credentials
-            });
+            const response = await this.instance.get(
+                registration.url + '/streams/deployments/' + streamName);
             const entry = response.data as ScdfStreamDeploymentEntry;
             // TODO: don't like this manual parsing, can axios do it?
             entry.deploymentProperties = JSON.parse(response.data.deploymentProperties);
@@ -49,10 +60,8 @@ export class ScdfService {
 
     public getStreamRuntime(registration: ServerRegistration, streamName: string): Thenable<ScdfStreamRuntimeEntry[]> {
         return new Promise(async (resolve, reject) => {
-            const response = await axios.get(
-                registration.url + '/runtime/streams?names=' + streamName, {
-                    auth: registration.credentials
-            });
+            const response = await this.instance.get(
+                registration.url + '/runtime/streams?names=' + streamName);
             resolve((response.data as ScdfStreamRuntimeEntry[]));
         });
     }
@@ -60,9 +69,7 @@ export class ScdfService {
     public getStreams(registration: ServerRegistration): Thenable<ScdfStreamEntry[]> {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await axios.get(registration.url + '/streams/definitions?page=0&size=1000', {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(registration.url + '/streams/definitions?page=0&size=1000');
                 const data = (response.data._embedded &&
                     response.data._embedded.streamDefinitionResourceList) || [];
                 resolve((data as ScdfStreamEntry[]));
@@ -76,9 +83,7 @@ export class ScdfService {
     public getTasks(registration: ServerRegistration): Thenable<ScdfTaskEntry[]> {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await axios.get(registration.url + '/tasks/definitions?page=0&size=1000', {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(registration.url + '/tasks/definitions?page=0&size=1000');
                 const data = (response.data._embedded &&
                     response.data._embedded.taskDefinitionResourceList) || [];
                 resolve((data as ScdfTaskEntry[]));
@@ -92,9 +97,7 @@ export class ScdfService {
     public getTaskExecutions(registration: ServerRegistration, taskName: string): Thenable<ScdfTaskExecutionEntry[]> {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await axios.get(registration.url + '/tasks/executions?name=' + taskName, {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(registration.url + '/tasks/executions?name=' + taskName);
                 const data = (response.data._embedded &&
                     response.data._embedded.taskExecutionResourceList) || [];
                 resolve((data as ScdfTaskExecutionEntry[]));
@@ -107,18 +110,14 @@ export class ScdfService {
 
     public getTaskExecution(registration: ServerRegistration, executionId: number): Thenable<ScdfTaskExecutionEntry> {
         return new Promise(async (resolve, reject) => {
-                const response = await axios.get(registration.url + '/tasks/executions/' + executionId, {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(registration.url + '/tasks/executions/' + executionId);
                 resolve((response.data as ScdfTaskExecutionEntry));
         });
     }
 
     public deleteTaskExecution(registration: ServerRegistration, executionId: number): Thenable<void> {
         return new Promise(async (resolve, reject) => {
-                await axios.delete(registration.url + '/tasks/executions/' + executionId + '?action=REMOVE_DATA', {
-                    auth: registration.credentials
-                });
+                await this.instance.delete(registration.url + '/tasks/executions/' + executionId + '?action=REMOVE_DATA');
                 resolve();
         });
     }
@@ -126,9 +125,7 @@ export class ScdfService {
     public getJobs(registration: ServerRegistration): Thenable<ScdfJobEntry[]> {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await axios.get(registration.url + '/jobs/thinexecutions?page=0&size=1000', {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(registration.url + '/jobs/thinexecutions?page=0&size=1000');
                 const data = (response.data._embedded &&
                     response.data._embedded.jobExecutionThinResourceList) || [];
                 resolve((data as ScdfJobEntry[]));
@@ -141,18 +138,14 @@ export class ScdfService {
 
     public getJobExecution(registration: ServerRegistration, executionId: number): Thenable<ScdfJobExecutionEntry> {
         return new Promise(async (resolve, reject) => {
-                const response = await axios.get(registration.url + '/jobs/executions/' + executionId, {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(registration.url + '/jobs/executions/' + executionId);
                 resolve((response.data as ScdfJobExecutionEntry));
         });
     }
 
     public getStepExecution(registration: ServerRegistration, jobExecutionId: number, stepExecutionId: number): Thenable<ScdfStepExecutionEntry> {
         return new Promise(async (resolve, reject) => {
-                const response = await axios.get(registration.url + '/jobs/executions/' + jobExecutionId + '/steps/' + stepExecutionId, {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(registration.url + '/jobs/executions/' + jobExecutionId + '/steps/' + stepExecutionId);
                 resolve((response.data as ScdfStepExecutionEntry));
         });
     }
@@ -160,9 +153,7 @@ export class ScdfService {
     public getApps(registration: ServerRegistration): Thenable<ScdfAppEntry[]> {
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await axios.get(registration.url + '/apps?page=0&size=1000', {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(registration.url + '/apps?page=0&size=1000');
                 const data = (response.data._embedded &&
                     response.data._embedded.appRegistrationResourceList) || [];
                 resolve((data as ScdfAppEntry[]));
@@ -180,9 +171,8 @@ export class ScdfService {
                 const formData = new FormData();
                 formData.append('force', 'false');
                 formData.append('apps', uris.join('\n'));
-                await axios.post(registration.url + '/apps', formData, {
+                await this.instance.post(registration.url + '/apps', formData, {
                     headers: formData.getHeaders(),
-                    auth: registration.credentials
                 });
                 resolve();
             }
@@ -195,13 +185,12 @@ export class ScdfService {
     public registerApp(registration: ServerRegistration, type: string, name: string, uri: string, metadataUri: string): Thenable<void> {
         return new Promise(async (resolve, reject) => {
             try {
-                await axios.post(registration.url + '/apps/' + type + '/' + name, {}, {
+                await this.instance.post(registration.url + '/apps/' + type + '/' + name, {}, {
                     params: {
                         uri: uri,
                         force: false,
                         'metadata-uri': metadataUri
-                    },
-                    auth: registration.credentials
+                    }
                 });
                 resolve();
             }
@@ -218,9 +207,7 @@ export class ScdfService {
                 if (version) {
                     url = url + '/' + version;
                 }
-                await axios.delete(url, {
-                    auth: registration.credentials
-                });
+                await this.instance.delete(url);
                 resolve();
             }
             catch (error) {
@@ -233,9 +220,7 @@ export class ScdfService {
         return new Promise(async (resolve, reject) => {
             try {
                 let url = registration.url + '/apps/' + type + '/' + name + '/' + version;
-                await axios.put(url, {
-                    auth: registration.credentials
-                });
+                await this.instance.put(url);
                 resolve();
             }
             catch (error) {
@@ -251,9 +236,7 @@ export class ScdfService {
                 if (appName) {
                     url = url + '/' + appName;
                 }
-                const response = await axios.get(url, {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(url);
                 resolve(response.data as ScdfStreamLogs);
             }
             catch (error) {
@@ -266,9 +249,7 @@ export class ScdfService {
         return new Promise(async (resolve, reject) => {
             try {
                 let url = registration.url + '/tasks/logs/' + externalExecutionId;
-                const response = await axios.get(url, {
-                    auth: registration.credentials
-                });
+                const response = await this.instance.get(url);
                 resolve(response.data as string);
             }
             catch (error) {
