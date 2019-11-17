@@ -211,7 +211,7 @@
 						"scope": "window"
 					},
 					"scdf.apps.imports": {
-						"type":"array",
+						"type": "array",
 						"default": [
 							{
 								"uri": "https://dataflow.spring.io/kafka-maven-latest",
@@ -578,29 +578,29 @@
 		"vsix-next": "renamer --find $(echo $npm_package_version) --replace $(echo $npm_package_version)-next.$(date '+%Y%m%d.%H%M%S').$(git rev-parse --short HEAD) *.vsix"
 	},
 	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^5.2.7",
-		"@types/node": "^10.12.21",
-		"@types/vscode": "^1.37.0",
-		"form-data": "^2.5.1",
-		"glob": "^7.1.4",
-		"mocha": "^6.2.0",
-		"mvn-artifact-download": "^4.0.0",
-		"renamer": "^1.1.4",
-		"ts-loader": "^6.1.0",
-		"tslint": "^5.12.1",
-		"typescript": "^3.3.1",
-		"vsce": "^1.62.0",
-		"vscode-test": "^1.2.0",
-		"webpack": "^4.40.2",
-		"webpack-cli": "^3.3.8"
+		"@types/glob": "7.1.1",
+		"@types/mocha": "5.2.7",
+		"@types/node": "10.12.21",
+		"@types/vscode": "1.37.0",
+		"form-data": "2.5.1",
+		"glob": "7.1.4",
+		"mocha": "6.2.0",
+		"mvn-artifact-download": "4.0.0",
+		"renamer": "1.1.4",
+		"ts-loader": "6.1.0",
+		"tslint": "5.12.1",
+		"typescript": "3.3.1",
+		"vsce": "1.62.0",
+		"vscode-test": "1.2.0",
+		"webpack": "4.40.2",
+		"webpack-cli": "3.3.8"
 	},
 	"dependencies": {
 		"@pivotal-tools/vscode-extension-core": "next",
 		"@pivotal-tools/vscode-extension-di": "next",
-		"axios": "^0.19.0",
-		"inversify": "^5.0.1",
-		"reflect-metadata": "^0.1.13",
-		"vscode-languageclient": "^5.2.1"
+		"axios": "0.19.0",
+		"inversify": "5.0.1",
+		"reflect-metadata": "0.1.13",
+		"vscode-languageclient": "5.2.1"
 	}
 }
