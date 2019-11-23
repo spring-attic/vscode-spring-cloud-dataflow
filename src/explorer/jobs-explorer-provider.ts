@@ -23,6 +23,7 @@ import { BaseNode } from './models/base-node';
 import { ServerRegistrationManager } from '../service/server-registration-manager';
 import { TYPES } from '../types';
 import { ServerMode, ServerNode } from './models/server-node';
+import { ServerStatesManager } from '../service/server-states-manager';
 
 @injectable()
 export class JobsExplorerProvider implements TreeDataProvider<BaseNode> {
@@ -32,9 +33,11 @@ export class JobsExplorerProvider implements TreeDataProvider<BaseNode> {
 
     constructor(
         @inject(TYPES.ServerRegistrationManager) private serverRegistrationManager: ServerRegistrationManager,
+        @inject(TYPES.ServerStatesManager) private serverStatesManager: ServerStatesManager,
 		@inject(DITYPES.IconManager) private iconManager: IconManager
     ) {
-		window.createTreeView('scdfJobs', { treeDataProvider: this });
+		const treeView = window.createTreeView('scdfJobs', { treeDataProvider: this });
+        this.serverStatesManager.registerRefreshEvents('scdfJobs', treeView, this._onDidChangeTreeData);
 	}
 
 	getChildren(element?: BaseNode | undefined): ProviderResult<BaseNode[]> {
@@ -57,7 +60,11 @@ export class JobsExplorerProvider implements TreeDataProvider<BaseNode> {
             const servers = await this.serverRegistrationManager.getServers();
 			const ret: BaseNode[] = [];
 			servers.forEach(registration => {
-				ret.push(new ServerNode(this.iconManager, registration, ServerMode.Jobs));
+				ret.push(new ServerNode(
+					this.iconManager,
+					registration,
+					ServerMode.Jobs,
+					this.serverStatesManager.getState(registration.url)));
 			});
 			resolve(ret);
 		});

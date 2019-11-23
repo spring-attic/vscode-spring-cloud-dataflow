@@ -223,6 +223,22 @@
 						"description": "Trust invalid ssl certificates.",
 						"scope": "window"
 					},
+					"scdf.server.statecheck": {
+						"type": "string",
+						"enum": [
+							"none",
+							"color",
+							"icon"
+						],
+						"default": "icon",
+						"description": "Track server states",
+						"scope": "window"
+					},
+					"scdf.server.staterefresh": {
+						"type": "number",
+						"default": 5,
+						"description": "Server state check interval in seconds, default 5s."
+					},
 					"scdf.notification.location": {
 						"type": "string",
 						"enum": [

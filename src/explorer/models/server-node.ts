@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { IconManager } from '@pivotal-tools/vscode-extension-core';
+import { IconManager, ThemedIconPath } from '@pivotal-tools/vscode-extension-core';
 import { BaseNode } from './base-node';
 import { ScdfModel, ScdfAppEntry } from '../../service/scdf-model';
 import { StreamNode } from './stream-node';
@@ -21,6 +21,9 @@ import { AppTypeNode, AppType } from './app-type-node';
 import { ServerRegistration } from '../../service/server-registration-manager';
 import { TaskNode } from './task-node';
 import { JobNode } from './job-node';
+import { ServerState } from '../../service/server-states-manager';
+import { CONFIG_SCDF_SERVER_STATECHECK } from '../../extension-globals';
+import { workspace } from 'vscode';
 
 /**
  * Enumeration of a possible child types under server in a dataflow. Mostly following web
@@ -41,7 +44,8 @@ export class ServerNode extends BaseNode {
     constructor(
         iconManager: IconManager,
         public readonly registration: ServerRegistration,
-        public readonly mode: ServerMode
+        public readonly mode: ServerMode,
+        public readonly state: ServerState
     ) {
         super(registration.name, registration.url, iconManager, 'serverRegistration');
     }
@@ -59,6 +63,25 @@ export class ServerNode extends BaseNode {
             default:
                 return super.getChildren(element);
         }
+    }
+
+    protected getThemedIconPath(): ThemedIconPath {
+        let icon: string = 'server';
+        const stateCheck = workspace.getConfiguration().get<string>(CONFIG_SCDF_SERVER_STATECHECK, 'icon');
+        if (stateCheck === 'icon') {
+            if (this.state === ServerState.Online) {
+                icon = 'server';
+            } else if (this.state === ServerState.Offline) {
+                icon = 'server_offline';
+            }
+        } else if (stateCheck === 'color') {
+            if (this.state === ServerState.Online) {
+                icon = 'server_green';
+            } else if (this.state === ServerState.Offline) {
+                icon = 'server_red';
+            }
+        }
+        return this.getIconManager().getThemedIconPath(icon);
     }
 
     private async getAppTypeNodes(): Promise<AppTypeNode[]> {

@@ -23,6 +23,7 @@ import { BaseNode } from './models/base-node';
 import { ServerRegistrationManager } from '../service/server-registration-manager';
 import { TYPES } from '../types';
 import { ServerMode, ServerNode } from './models/server-node';
+import { ServerStatesManager } from '../service/server-states-manager';
 
 @injectable()
 export class TasksExplorerProvider implements TreeDataProvider<BaseNode> {
@@ -32,10 +33,11 @@ export class TasksExplorerProvider implements TreeDataProvider<BaseNode> {
 
     constructor(
         @inject(TYPES.ServerRegistrationManager) private serverRegistrationManager: ServerRegistrationManager,
+        @inject(TYPES.ServerStatesManager) private serverStatesManager: ServerStatesManager,
 		@inject(DITYPES.IconManager) private iconManager: IconManager
     ) {
-		window.createTreeView('scdfTasks', { treeDataProvider: this });
-		// this.extensionContext.subscriptions.push(workspace.registerTextDocumentContentProvider('scdfs', this));
+		const treeView = window.createTreeView('scdfTasks', { treeDataProvider: this });
+        this.serverStatesManager.registerRefreshEvents('scdfTasks', treeView, this._onDidChangeTreeData);
 	}
 
 	getChildren(element?: BaseNode | undefined): ProviderResult<BaseNode[]> {
@@ -58,7 +60,11 @@ export class TasksExplorerProvider implements TreeDataProvider<BaseNode> {
             const servers = await this.serverRegistrationManager.getServers();
 			const ret: BaseNode[] = [];
 			servers.forEach(registration => {
-				ret.push(new ServerNode(this.iconManager, registration, ServerMode.Tasks));
+				ret.push(new ServerNode(
+					this.iconManager,
+					registration,
+					ServerMode.Tasks,
+					this.serverStatesManager.getState(registration.url)));
 			});
 			resolve(ret);
 		});

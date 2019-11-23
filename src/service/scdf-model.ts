@@ -16,6 +16,7 @@
 import { Uri } from 'vscode';
 import { ScdfService } from './scdf-service';
 import { ServerRegistration } from './server-registration-manager';
+import { ServerState } from './server-states-manager';
 
 export interface BaseEntry {
     _links: {self: Uri};
@@ -218,5 +219,9 @@ export class ScdfModel {
 
     public taskLogs(externalExecutionId: string): Thenable<string> {
         return this.scdfService.taskLogs(this.registration, externalExecutionId);
+    }
+
+    public serverState(): Thenable<ServerState> {
+        return this.scdfService.serverState();
     }
 }

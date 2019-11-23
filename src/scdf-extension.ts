@@ -32,6 +32,7 @@ import { ServerRegistrationStatusBarManagerItem } from './statusbar/server-regis
 import { ServerRegistrationManager } from './service/server-registration-manager';
 import { JobsExplorerProvider } from './explorer/jobs-explorer-provider';
 import { CONFIG_SCDF_NOTIFICATION_LOCATION, CONFIG_SCDF_LS_JAVAHOME } from './extension-globals';
+import { ServerStatesManager } from './service/server-states-manager';
 
 export class ScdfExtension extends DiExtension {
 
@@ -49,6 +50,8 @@ export class ScdfExtension extends DiExtension {
         super.onContainer(container);
         container.load(debugContainerModule);
         container.load(commandsContainerModule);
+
+        container.bind<ServerStatesManager>(TYPES.ServerStatesManager).to(ServerStatesManager).inSingletonScope();
 
         container.bind<string>(DITYPES.NotificationManagerLocationKey).toConstantValue(CONFIG_SCDF_NOTIFICATION_LOCATION);
         container.bind<string>(DITYPES.JavaFinderJavaHomeKey).toConstantValue(CONFIG_SCDF_LS_JAVAHOME);

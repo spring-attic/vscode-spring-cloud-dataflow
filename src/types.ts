@@ -15,6 +15,7 @@
  */
 export const TYPES = {
     ServerRegistrationManager: Symbol('ServerRegistrationManager'),
+    ServerStatesManager: Symbol('ServerStatesManager'),
     AppsExplorerProvider: Symbol('AppsExplorerProvider'),
     StreamsExplorerProvider: Symbol('StreamsExplorerProvider'),
     TasksExplorerProvider: Symbol('TasksExplorerProvider'),
