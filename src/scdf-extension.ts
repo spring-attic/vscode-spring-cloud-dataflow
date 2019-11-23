@@ -18,7 +18,7 @@ import { ExtensionContext } from 'vscode';
 import { Container } from 'inversify';
 import {
     LanguageSupport, LanguageServerManager, NotificationManager, StatusBarManagerItem, StatusBarManager,
-    ExtensionActivateAware
+    ExtensionActivateAware, JavaFinder
 } from '@pivotal-tools/vscode-extension-core';
 import { DITYPES, DiExtension } from '@pivotal-tools/vscode-extension-di';
 import { TYPES } from './types';
@@ -31,7 +31,7 @@ import { TasksExplorerProvider } from './explorer/tasks-explorer-provider';
 import { ServerRegistrationStatusBarManagerItem } from './statusbar/server-registration-status-bar-manager-item';
 import { ServerRegistrationManager } from './service/server-registration-manager';
 import { JobsExplorerProvider } from './explorer/jobs-explorer-provider';
-import { CONFIG_SCDF_NOTIFICATION_LOCATION } from './extension-globals';
+import { CONFIG_SCDF_NOTIFICATION_LOCATION, CONFIG_SCDF_LS_JAVAHOME } from './extension-globals';
 
 export class ScdfExtension extends DiExtension {
 
@@ -51,6 +51,7 @@ export class ScdfExtension extends DiExtension {
         container.load(commandsContainerModule);
 
         container.bind<string>(DITYPES.NotificationManagerLocationKey).toConstantValue(CONFIG_SCDF_NOTIFICATION_LOCATION);
+        container.bind<string>(DITYPES.JavaFinderJavaHomeKey).toConstantValue(CONFIG_SCDF_LS_JAVAHOME);
 
         container.bind<LanguageSupport>(DITYPES.LanguageSupport).to(ScdfLanguageSupport);
         container.bind<AppsExplorerProvider>(TYPES.AppsExplorerProvider).to(AppsExplorerProvider).inSingletonScope();
@@ -71,8 +72,11 @@ export class ScdfExtension extends DiExtension {
         container.get<StreamsExplorerProvider>(TYPES.StreamsExplorerProvider);
         container.get<TasksExplorerProvider>(TYPES.TasksExplorerProvider);
         container.get<JobsExplorerProvider>(TYPES.JobsExplorerProvider);
-        container.get<LanguageServerManager>(DITYPES.LanguageServerManager);
         container.get<NotificationManager>(DITYPES.NotificationManager);
         container.get<StatusBarManager>(DITYPES.StatusBarManager);
+
+        // TODO: for now do this manually here until we have lifycycle hooks
+        const lsm = container.get<LanguageServerManager>(DITYPES.LanguageServerManager);
+        lsm.start().then();
     }
 }

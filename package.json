@@ -188,12 +188,35 @@
 				"command": "vscode-spring-cloud-dataflow.steps.execution.inspect",
 				"title": "Inspect",
 				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.ls.restart",
+				"title": "Restart Language Server",
+				"category": "SCDF"
 			}
 		],
 		"configuration": [
 			{
 				"title": "SCDF",
 				"properties": {
+					"scdf.ls.javahome": {
+						"type": [
+							"string",
+							"null"
+						],
+						"default": null,
+						"description": "Specifies the folder path to the JDK (8 or more recent) used to launch the Java Language Server.\nOn Windows, backslashes must be escaped, i.e.\n\"java.home\":\"C:\\\\Program Files\\\\Java\\\\jdk1.8.0_161\"",
+						"scope": "window"
+					},
+					"scdf.ls.vmargs": {
+						"type": [
+							"string",
+							"null"
+						],
+						"default": "-noverify -Xmx512m -XX:+UseG1GC -XX:+UseStringDeduplication",
+						"description": "Specifies extra VM arguments used to launch the Java Language Server. Eg. use `-noverify -Xmx512m -XX:+UseG1GC -XX:+UseStringDeduplication` to bypass class verification, increase the heap size to 512M and enable String deduplication with the G1 Garbage collector",
+						"scope": "window"
+					},
 					"scdf.connection.trustssl": {
 						"type": "boolean",
 						"default": false,
