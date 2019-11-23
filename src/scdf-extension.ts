@@ -18,7 +18,7 @@ import { ExtensionContext } from 'vscode';
 import { Container } from 'inversify';
 import {
     LanguageSupport, LanguageServerManager, NotificationManager, StatusBarManagerItem, StatusBarManager,
-    ExtensionActivateAware, JavaFinder
+    ExtensionActivateAware
 } from '@pivotal-tools/vscode-extension-core';
 import { DITYPES, DiExtension } from '@pivotal-tools/vscode-extension-di';
 import { TYPES } from './types';
