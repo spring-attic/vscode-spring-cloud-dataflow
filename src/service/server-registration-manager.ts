@@ -80,7 +80,6 @@ export class ServerRegistrationManager implements ExtensionActivateAware {
         const registration = await this.getDefaultServer();
         if (registration) {
             const trustssl = workspace.getConfiguration().get<boolean>(CONFIG_SCDF_CONNECTION_TRUSTSSL) || false;
-            console.log('ssl', trustssl);
             const params: DataflowEnvironmentParams = {
                 environments: registrations,
                 defaultEnvironment: registration.name,
