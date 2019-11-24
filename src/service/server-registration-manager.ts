@@ -18,10 +18,11 @@ import { SettingsManager, LanguageServerManager, ExtensionActivateAware } from '
 import { DITYPES } from '@pivotal-tools/vscode-extension-di';
 import { registerServerInput } from '../commands/register-server';
 import { BaseNode } from '../explorer/models/base-node';
-import { commands, window, ExtensionContext } from 'vscode';
+import { commands, window, ExtensionContext, workspace } from 'vscode';
 import { TYPES } from '../types';
 import { ServerRegistrationStatusBarManagerItem } from '../statusbar/server-registration-status-bar-manager-item';
 import { ServerNode } from '../explorer/models/server-node';
+import { CONFIG_SCDF_CONNECTION_TRUSTSSL } from '../extension-globals';
 
 export interface ServerRegistrationNonsensitive {
     url: string;
@@ -40,6 +41,7 @@ export interface ServerRegistration extends ServerRegistrationNonsensitive {
 export interface DataflowEnvironmentParams {
     environments: ServerRegistration[];
     defaultEnvironment: string;
+    trustssl: boolean;
 }
 
 @injectable()
@@ -77,9 +79,12 @@ export class ServerRegistrationManager implements ExtensionActivateAware {
         servers.forEach(registration => registrations.push(registration));
         const registration = await this.getDefaultServer();
         if (registration) {
+            const trustssl = workspace.getConfiguration().get<boolean>(CONFIG_SCDF_CONNECTION_TRUSTSSL) || false;
+            console.log('ssl', trustssl);
             const params: DataflowEnvironmentParams = {
                 environments: registrations,
-                defaultEnvironment: registration.name
+                defaultEnvironment: registration.name,
+                trustssl: trustssl
             };
             this.languageServerManager.getLanguageClient('scdfs').sendNotification('scdf/environment', params);
         }
