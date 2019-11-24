@@ -13,19 +13,21 @@ endif::[]
 toc::[]
 
 ifdef::env-github[]
-link:extension-basics.adoc[]
+link:extension-basics.adoc[Extension Basics]
 
-link:registering-environment.adoc[]
+link:registering-environment.adoc[Registering Environment]
 
-link:manage-applications.adoc[]
+link:manage-applications.adoc[Manage Applications]
 
-link:manage-streams.adoc[]
+link:manage-streams.adoc[Manage Streams]
 
-link:manage-tasks.adoc[]
+link:manage-tasks.adoc[Manage Tasks]
 
-link:manage-jobs.adoc[]
+link:manage-jobs.adoc[Manage Jobs]
 
-link:install-extension.adoc[]
+link:debug-support.adoc[Debug Support]
+
+link:install-extension.adoc[Install Extension]
 endif::[]
 
 _Spring Cloud Data Flow VSCode Extension_ main focus is to ease managing _SCDF_
@@ -64,7 +66,7 @@ include::manage-streams.adoc[]
 
 include::manage-tasks.adoc[]
 
-include::manage-jobs.adoc[]
+include::debug-support.adoc[]
 
 include::install-extension.adoc[]
 endif::[]
