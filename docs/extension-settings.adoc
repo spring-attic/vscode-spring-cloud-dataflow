@@ -1,0 +1,85 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+[[vscode-extension-settings]]
+== Extension Settings
+
+Generic extension settings:
+
+[[vscode-extension-settings-scdf.ls.javahome]]`scdf.ls.javahome`::
+  Description:::
+    Specifies the folder path to the JDK (8 or more recent) used to
+    launch the Java Language Server.\nOn Windows, backslashes must be
+    escaped, i.e. java.home:"C:\\Program Files\Java\jdk1.8.0_161\"
+  Required:::
+No
+  Type:::
+String
+   Default Value:::
+null
+
+[[vscode-extension-settings-scdf.ls.vmargs]]`scdf.ls.vmargs`::
+  Description:::
+    Specifies extra VM arguments used to launch the Java Language Server. Eg. use `-noverify -Xmx512m -XX:+UseG1GC -XX:+UseStringDeduplication` to bypass class verification, increase the heap size to 512M and enable String deduplication with the G1 Garbage collector
+  Required:::
+No
+  Type:::
+String
+   Default Value:::
+-noverify -Xmx512m -XX:+UseG1GC -XX:+UseStringDeduplication
+
+[[vscode-extension-settings-scdf.connection.trustssl]]`scdf.connection.trustssl`::
+  Description:::
+    Trust invalid ssl certificates.
+  Required:::
+No
+  Type:::
+Boolean
+   Default Value:::
+false
+
+[[vscode-extension-settings-scdf.server.statecheck]]`scdf.server.statecheck`::
+  Description:::
+    Track server states
+  Required:::
+No
+  Type:::
+Enum `none`, `color`, `icon`
+   Default Value:::
+icon
+
+[[vscode-extension-settings-scdf.server.staterefresh]]`scdf.server.staterefresh`::
+  Description:::
+    Server state check interval in seconds, default 5s.
+  Required:::
+No
+  Type:::
+Number
+   Default Value:::
+5
+
+[[vscode-extension-settings-scdf.notification.location]]`scdf.notification.location`::
+  Description:::
+    Where notifications are shown
+  Required:::
+No
+  Type:::
+Enum `statusbar`, `notifications`
+   Default Value:::
+notifications
+
+[[vscode-extension-settings-scdf.apps.imports]]`scdf.apps.imports`::
+  Description:::
+    Used application import addresses
+  Required:::
+No
+  Type:::
+Array of `{uri: '<address>', desc: '<description>'}`
+   Default Value:::
+What's generally defined in a current UI.
+

@@ -251,6 +251,7 @@
 					},
 					"scdf.apps.imports": {
 						"type": "array",
+						"description": "Used application import addresses",
 						"default": [
 							{
 								"uri": "https://dataflow.spring.io/kafka-maven-latest",
