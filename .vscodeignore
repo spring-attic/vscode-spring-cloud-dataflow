@@ -12,6 +12,8 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 scdflsp.js
+scdflsplocal.js
 node_modules
 webpack.config.js
 .azure-pipelines/
+ci/**
