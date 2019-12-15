@@ -92,7 +92,16 @@
 			},
 			{
 				"command": "vscode-spring-cloud-dataflow.apps.registerall",
-				"title": "Register All Apps",
+				"title": "Register Apps to Default Env",
+				"category": "SCDF",
+				"icon": {
+					"light": "resources/light/app.svg",
+					"dark": "resources/dark/app.svg"
+				}
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.apps.registerallselect",
+				"title": "Register Apps to Selected Env",
 				"category": "SCDF",
 				"icon": {
 					"light": "resources/light/app.svg",
@@ -376,11 +385,20 @@
 				{
 					"command": "vscode-spring-cloud-dataflow.apps.registerall",
 					"when": "resourceLangId == scdfa"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.registerallselect",
+					"when": "resourceLangId == scdfa"
 				}
 			],
 			"editor/title": [
 				{
 					"command": "vscode-spring-cloud-dataflow.apps.registerall",
+					"when": "resourceLangId == scdfa",
+					"group": "navigation"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.apps.registerallselect",
 					"when": "resourceLangId == scdfa",
 					"group": "navigation"
 				}

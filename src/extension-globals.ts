@@ -59,6 +59,7 @@ export const COMMAND_SCDF_TASKS_EXECUTION_DELETE: string = 'vscode-spring-cloud-
 export const COMMAND_SCDF_JOBS_EXECUTION_INSPECT: string = 'vscode-spring-cloud-dataflow.jobs.execution.inspect';
 export const COMMAND_SCDF_STEPS_EXECUTION_INSPECT: string = 'vscode-spring-cloud-dataflow.steps.execution.inspect';
 export const COMMAND_SCDF_APPS_REGISTERALL: string = 'vscode-spring-cloud-dataflow.apps.registerall';
+export const COMMAND_SCDF_APPS_REGISTERALLSELECT: string = 'vscode-spring-cloud-dataflow.apps.registerallselect';
 export const COMMAND_SCDF_APPS_REGISTER: string = 'vscode-spring-cloud-dataflow.apps.register';
 export const COMMAND_SCDF_APPS_UNREGISTER: string = 'vscode-spring-cloud-dataflow.apps.unregister';
 export const COMMAND_SCDF_APPS_DEFAULT: string = 'vscode-spring-cloud-dataflow.apps.default';
