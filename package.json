@@ -258,6 +258,18 @@
 						"description": "Where notifications are shown",
 						"scope": "window"
 					},
+					"scdf.notification.level": {
+						"type": "number",
+						"enum": [
+							"Trace",
+							"Info",
+							"Warn",
+							"Error"
+						],
+						"default": "Info",
+						"description": "Level of notifications shown",
+						"scope": "window"
+					},
 					"scdf.apps.imports": {
 						"type": "array",
 						"description": "Used application import addresses",
