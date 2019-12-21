@@ -18,7 +18,10 @@
 
 export const EXTENSION_ID: string = 'vscode-spring-cloud-dataflow';
 export const CONFIG_PREFIX: string = 'scdf';
+export const SCDF_NOTIFICATION_OUTPUT_KEY: string = 'SCDF';
+export const SCDF_NOTIFICATION_OUTPUT_TAG: string = 'scdf-notification-manager';
 export const CONFIG_SCDF_NOTIFICATION_LOCATION: string = CONFIG_PREFIX + '.notification.location';
+export const CONFIG_SCDF_NOTIFICATION_LEVEL: string = CONFIG_PREFIX + '.notification.level';
 export const CONFIG_SCDF_APPS_IMPORTS: string = CONFIG_PREFIX + '.apps.imports';
 export const CONFIG_SCDF_CONNECTION_TRUSTSSL: string = CONFIG_PREFIX + '.connection.trustssl';
 export const CONFIG_SCDF_LS_JAVAHOME: string = CONFIG_PREFIX + '.ls.javahome';

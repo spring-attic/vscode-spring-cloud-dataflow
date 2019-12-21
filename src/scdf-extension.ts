@@ -31,7 +31,10 @@ import { TasksExplorerProvider } from './explorer/tasks-explorer-provider';
 import { ServerRegistrationStatusBarManagerItem } from './statusbar/server-registration-status-bar-manager-item';
 import { ServerRegistrationManager } from './service/server-registration-manager';
 import { JobsExplorerProvider } from './explorer/jobs-explorer-provider';
-import { CONFIG_SCDF_NOTIFICATION_LOCATION, CONFIG_SCDF_LS_JAVAHOME } from './extension-globals';
+import {
+    CONFIG_SCDF_NOTIFICATION_LOCATION, CONFIG_SCDF_LS_JAVAHOME, CONFIG_SCDF_NOTIFICATION_LEVEL,
+    SCDF_NOTIFICATION_OUTPUT_KEY, SCDF_NOTIFICATION_OUTPUT_TAG
+} from './extension-globals';
 import { ServerStatesManager } from './service/server-states-manager';
 
 export class ScdfExtension extends DiExtension {
@@ -53,9 +56,13 @@ export class ScdfExtension extends DiExtension {
 
         container.bind<ServerStatesManager>(TYPES.ServerStatesManager).to(ServerStatesManager).inSingletonScope();
 
+        // setup for notification manager
         container.bind<string>(DITYPES.NotificationManagerLocationKey).toConstantValue(CONFIG_SCDF_NOTIFICATION_LOCATION);
-        container.bind<string>(DITYPES.JavaFinderJavaHomeKey).toConstantValue(CONFIG_SCDF_LS_JAVAHOME);
+        container.bind<string>(DITYPES.NotificationManagerLevelKey).toConstantValue(CONFIG_SCDF_NOTIFICATION_LEVEL);
+        container.bind<string>(DITYPES.NotificationManagerOutputKey).toConstantValue(SCDF_NOTIFICATION_OUTPUT_KEY);
+        container.bind<string>(DITYPES.NotificationManagerOutputTag).toConstantValue(SCDF_NOTIFICATION_OUTPUT_TAG);
 
+        container.bind<string>(DITYPES.JavaFinderJavaHomeKey).toConstantValue(CONFIG_SCDF_LS_JAVAHOME);
         container.bind<LanguageSupport>(DITYPES.LanguageSupport).to(ScdfLanguageSupport);
         container.bind<AppsExplorerProvider>(TYPES.AppsExplorerProvider).to(AppsExplorerProvider).inSingletonScope();
         container.bind<StreamsExplorerProvider>(TYPES.StreamsExplorerProvider).to(StreamsExplorerProvider).inSingletonScope();
