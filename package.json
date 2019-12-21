@@ -252,7 +252,8 @@
 						"type": "string",
 						"enum": [
 							"statusbar",
-							"notifications"
+							"notifications",
+							"log"
 						],
 						"default": "notifications",
 						"description": "Where notifications are shown",
