@@ -17,15 +17,13 @@ import { inject, injectable } from 'inversify';
 import * as Path from 'path';
 import { ExtensionContext, commands, workspace } from 'vscode';
 import {
-    LanguageClient, LanguageClientOptions, ServerOptions, NotificationType, ErrorHandler, ErrorAction, Message, CloseAction
+    LanguageClient, LanguageClientOptions, ServerOptions, ErrorHandler, ErrorAction, Message, CloseAction
 } from 'vscode-languageclient';
 import { DITYPES } from '@pivotal-tools/vscode-extension-di';
 import { LanguageSupport, NotificationManager, JavaFinder } from '@pivotal-tools/vscode-extension-core';
 import {
     LANGUAGE_SERVER_JAR, LANGUAGE_SCDF_STREAM_PREFIX, LANGUAGE_SCDF_APP_PREFIX, CONFIG_PREFIX, LANGUAGE_SCDF_DESC,
-    COMMAND_SCDF_SERVER_NOTIFY, COMMAND_SCDF_EXPLORER_REFRESH, LSP_SCDF_CREATED_STREAM, LSP_SCDF_DEPLOYED_STREAM,
-    LSP_SCDF_UNDEPLOYED_STREAM, LSP_SCDF_DESTROYED_STREAM, LANGUAGE_SCDF_TASK_PREFIX, LSP_SCDF_DESTROYED_TASK,
-    LSP_SCDF_CREATED_TASK, LSP_SCDF_LAUNCHED_TASK, LANGUAGE_SCDF_STREAM_RUNTIME_PREFIX
+    COMMAND_SCDF_SERVER_NOTIFY, LANGUAGE_SCDF_TASK_PREFIX, LANGUAGE_SCDF_STREAM_RUNTIME_PREFIX
 } from '../extension-globals';
 
 class ClientErrorHandler implements ErrorHandler {
@@ -68,14 +66,6 @@ class ClientErrorHandler implements ErrorHandler {
 @injectable()
 export class ScdfLanguageSupport implements LanguageSupport {
 
-    private destroyedStreamNotification = new NotificationType<void,void>(LSP_SCDF_DESTROYED_STREAM);
-    private createdStreamNotification = new NotificationType<void,void>(LSP_SCDF_CREATED_STREAM);
-    private deployedStreamNotification = new NotificationType<void,void>(LSP_SCDF_DEPLOYED_STREAM);
-    private undeployedStreamNotification = new NotificationType<void,void>(LSP_SCDF_UNDEPLOYED_STREAM);
-    private destroyedTaskNotification = new NotificationType<void,void>(LSP_SCDF_DESTROYED_TASK);
-    private launchedTaskNotification = new NotificationType<void,void>(LSP_SCDF_LAUNCHED_TASK);
-    private createdTaskNotification = new NotificationType<void,void>(LSP_SCDF_CREATED_TASK);
-
     constructor(
         @inject(DITYPES.ExtensionContext) private context: ExtensionContext,
         @inject(DITYPES.NotificationManager) private notificationManager: NotificationManager,
@@ -96,31 +86,6 @@ export class ScdfLanguageSupport implements LanguageSupport {
             const languageClient = new LanguageClient(CONFIG_PREFIX, LANGUAGE_SCDF_DESC, await this.getServerOptions(), this.getLanguageClientOptions());
             languageClient.onReady().then(() => {
                 this.notificationManager.showMessage('Started Language Support for ' + this.getLanguageIds().join(','));
-                languageClient.onNotification(this.destroyedStreamNotification, () => {
-                    commands.executeCommand(COMMAND_SCDF_EXPLORER_REFRESH);
-                });
-                languageClient.onNotification(this.createdStreamNotification, () => {
-                    commands.executeCommand(COMMAND_SCDF_EXPLORER_REFRESH);
-                });
-                languageClient.onNotification(this.deployedStreamNotification, () => {
-                    this.notificationManager.showMessage('Stream deployed');
-                    commands.executeCommand(COMMAND_SCDF_EXPLORER_REFRESH);
-                });
-                languageClient.onNotification(this.undeployedStreamNotification, () => {
-                    commands.executeCommand(COMMAND_SCDF_EXPLORER_REFRESH);
-                });
-                languageClient.onNotification(this.destroyedTaskNotification, () => {
-                    this.notificationManager.showMessage('Task destroyed');
-                    commands.executeCommand(COMMAND_SCDF_EXPLORER_REFRESH);
-                });
-                languageClient.onNotification(this.createdTaskNotification, () => {
-                    this.notificationManager.showMessage('Task created');
-                    commands.executeCommand(COMMAND_SCDF_EXPLORER_REFRESH);
-                });
-                languageClient.onNotification(this.launchedTaskNotification, () => {
-                    this.notificationManager.showMessage('Task launched');
-                    commands.executeCommand(COMMAND_SCDF_EXPLORER_REFRESH);
-                });
                 commands.executeCommand(COMMAND_SCDF_SERVER_NOTIFY);
             });
             resolve(languageClient);

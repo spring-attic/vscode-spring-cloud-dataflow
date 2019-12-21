@@ -16,10 +16,12 @@
 import { injectable, inject } from 'inversify';
 import { LanguageServerManager, NotificationManager } from '@pivotal-tools/vscode-extension-core';
 import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
-import { COMMAND_SCDF_STREAMS_DEPLOY, LSP_SCDF_DEPLOY_STREAM } from '../extension-globals';
+import { COMMAND_SCDF_STREAMS_DEPLOY, LSP_SCDF_DEPLOY_STREAM, LANGUAGE_SCDF_STREAM_PREFIX } from '../extension-globals';
 import { DataflowStreamDeployParams } from './stream-commands';
 import { TYPES } from '../types';
 import { ServerRegistrationManager } from '../service/server-registration-manager';
+import { DataflowResponse } from '../language/scdf-language-interfaces';
+import { StreamsExplorerProvider } from '../explorer/streams-explorer-provider';
 
 @injectable()
 export class StreamsDeployCommand implements Command {
@@ -27,7 +29,8 @@ export class StreamsDeployCommand implements Command {
     constructor(
         @inject(TYPES.ServerRegistrationManager) private serverRegistrationManager: ServerRegistrationManager,
         @inject(DITYPES.LanguageServerManager) private languageServerManager: LanguageServerManager,
-        @inject(DITYPES.NotificationManager) private notificationManager: NotificationManager
+        @inject(DITYPES.NotificationManager) private notificationManager: NotificationManager,
+        @inject(TYPES.StreamsExplorerProvider) private streamsExplorerProvider: StreamsExplorerProvider
     ) {}
 
     get id() {
@@ -42,9 +45,11 @@ export class StreamsDeployCommand implements Command {
                 server: params.server || defaultServer.name,
                 properties: params.properties || {}
             };
-            this.languageServerManager.getLanguageClient('scdfs').sendNotification(LSP_SCDF_DEPLOY_STREAM, p);
-            this.notificationManager.showMessage('Stream deploy sent');
+            this.notificationManager.showMessage(`Deploying stream ${params.name}`);
+            const response: DataflowResponse = await this.languageServerManager
+                .getLanguageClient(LANGUAGE_SCDF_STREAM_PREFIX).sendRequest(LSP_SCDF_DEPLOY_STREAM, p);
+            this.notificationManager.showMessage(response.message);
+            this.streamsExplorerProvider.refresh();
         }
-        // TODO: notify user about errors or missing env
     }
 }

@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 import { injectable, inject } from 'inversify';
-import { LanguageServerManager } from '@pivotal-tools/vscode-extension-core';
+import { LanguageServerManager, NotificationManager } from '@pivotal-tools/vscode-extension-core';
 import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
-import { COMMAND_SCDF_TASKS_CREATE, LSP_SCDF_CREATE_TASK } from '../extension-globals';
+import { COMMAND_SCDF_TASKS_CREATE, LSP_SCDF_CREATE_TASK, LANGUAGE_SCDF_TASK_PREFIX } from '../extension-globals';
 import { DataflowTaskCreateParams } from './stream-commands';
 import { TYPES } from '../types';
 import { ServerRegistrationManager } from '../service/server-registration-manager';
+import { TasksExplorerProvider } from '../explorer/tasks-explorer-provider';
+import { DataflowResponse } from '../language/scdf-language-interfaces';
 
 @injectable()
 export class TasksCreateCommand implements Command {
 
     constructor(
         @inject(TYPES.ServerRegistrationManager) private serverRegistrationManager: ServerRegistrationManager,
-        @inject(DITYPES.LanguageServerManager) private languageServerManager: LanguageServerManager
+        @inject(DITYPES.LanguageServerManager) private languageServerManager: LanguageServerManager,
+        @inject(DITYPES.NotificationManager) private notificationManager: NotificationManager,
+        @inject(TYPES.TasksExplorerProvider) private tasksExplorerProvider: TasksExplorerProvider
     ) {}
 
     get id() {
@@ -43,7 +47,11 @@ export class TasksCreateCommand implements Command {
                 definition: params.definition,
                 server: server
             };
-            this.languageServerManager.getLanguageClient('scdft').sendNotification(LSP_SCDF_CREATE_TASK, p);
+            this.notificationManager.showMessage(`Creating task ${params.name}`);
+            const response: DataflowResponse = await this.languageServerManager
+                .getLanguageClient(LANGUAGE_SCDF_TASK_PREFIX).sendRequest(LSP_SCDF_CREATE_TASK, p);
+            this.notificationManager.showMessage(response.message);
+            this.tasksExplorerProvider.refresh();
         }
     }
 }

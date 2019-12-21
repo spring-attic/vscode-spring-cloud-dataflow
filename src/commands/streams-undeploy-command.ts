@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 import { injectable, inject } from 'inversify';
-import { LanguageServerManager } from '@pivotal-tools/vscode-extension-core';
+import { LanguageServerManager, NotificationManager } from '@pivotal-tools/vscode-extension-core';
 import { Command, DITYPES } from '@pivotal-tools/vscode-extension-di';
-import { COMMAND_SCDF_STREAMS_UNDEPLOY, LSP_SCDF_UNDEPLOY_STREAM } from '../extension-globals';
+import { COMMAND_SCDF_STREAMS_UNDEPLOY, LSP_SCDF_UNDEPLOY_STREAM, LANGUAGE_SCDF_STREAM_PREFIX } from '../extension-globals';
 import { DataflowStreamUndeployParams } from './stream-commands';
 import { TYPES } from '../types';
 import { ServerRegistrationManager } from '../service/server-registration-manager';
+import { StreamsExplorerProvider } from '../explorer/streams-explorer-provider';
+import { DataflowResponse } from '../language/scdf-language-interfaces';
 
 @injectable()
 export class StreamsUndeployCommand implements Command {
 
     constructor(
         @inject(TYPES.ServerRegistrationManager) private serverRegistrationManager: ServerRegistrationManager,
-        @inject(DITYPES.LanguageServerManager) private languageServerManager: LanguageServerManager
+        @inject(DITYPES.LanguageServerManager) private languageServerManager: LanguageServerManager,
+        @inject(DITYPES.NotificationManager) private notificationManager: NotificationManager,
+        @inject(TYPES.StreamsExplorerProvider) private streamsExplorerProvider: StreamsExplorerProvider
     ) {}
 
     get id() {
@@ -41,8 +45,11 @@ export class StreamsUndeployCommand implements Command {
                 name: params.name,
                 server: server
             };
-            this.languageServerManager.getLanguageClient('scdfs').sendNotification(LSP_SCDF_UNDEPLOY_STREAM, p);
+            this.notificationManager.showMessage(`Undeploying stream ${params.name}`);
+            const response: DataflowResponse = await this.languageServerManager
+                .getLanguageClient(LANGUAGE_SCDF_STREAM_PREFIX).sendRequest(LSP_SCDF_UNDEPLOY_STREAM, p);
+            this.notificationManager.showMessage(response.message);
+            this.streamsExplorerProvider.refresh();
         }
-        // TODO: notify user about errors or missing env
     }
 }

@@ -29,3 +29,8 @@ export interface TaskLaunchParams {
     arguments?: string[];
     properties?: DeploymentProperties;
 }
+
+export interface DataflowResponse {
+    message: string;
+    isError?: boolean;
+}
