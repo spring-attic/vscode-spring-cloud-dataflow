@@ -43,6 +43,7 @@ export const COMMAND_SCDF_SERVER_NOTIFY: string = 'vscode-spring-cloud-dataflow.
 export const COMMAND_SCDF_SERVER_DEFAULT: string = 'vscode-spring-cloud-dataflow.server.default';
 export const COMMAND_SCDF_SERVER_CHOOSE: string = 'vscode-spring-cloud-dataflow.server.choose';
 export const COMMAND_SCDF_SERVER_DASHBOARD: string = 'vscode-spring-cloud-dataflow.server.dashboard';
+export const COMMAND_SCDF_SERVER_INSPECT: string = 'vscode-spring-cloud-dataflow.server.inspect';
 export const COMMAND_SCDF_EXPLORER_REFRESH: string = 'vscode-spring-cloud-dataflow.explorer.refresh';
 export const COMMAND_SCDF_STREAMS_SHOW: string = 'vscode-spring-cloud-dataflow.streams.show';
 export const COMMAND_SCDF_STREAMS_LOG: string = 'vscode-spring-cloud-dataflow.streams.log';

@@ -221,6 +221,10 @@ export class ScdfModel {
         return this.scdfService.taskLogs(this.registration, externalExecutionId);
     }
 
+    public about(): Thenable<string> {
+        return this.scdfService.about();
+    }
+
     public serverState(): Thenable<ServerState> {
         return this.scdfService.serverState();
     }

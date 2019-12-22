@@ -76,6 +76,11 @@
 				"category": "SCDF"
 			},
 			{
+				"command": "vscode-spring-cloud-dataflow.server.inspect",
+				"title": "Inspect",
+				"category": "SCDF"
+			},
+			{
 				"command": "vscode-spring-cloud-dataflow.log.close.all",
 				"title": "Close All Logs",
 				"category": "SCDF"
@@ -357,6 +362,10 @@
 					"when": "never"
 				},
 				{
+					"command": "vscode-spring-cloud-dataflow.server.inspect",
+					"when": "never"
+				},
+				{
 					"command": "vscode-spring-cloud-dataflow.apps.unregister",
 					"when": "never"
 				},
@@ -480,6 +489,10 @@
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.server.dashboard",
+					"when": "viewItem == serverRegistration"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.server.inspect",
 					"when": "viewItem == serverRegistration"
 				},
 				{

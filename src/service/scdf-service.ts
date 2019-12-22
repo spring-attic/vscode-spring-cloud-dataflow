@@ -277,4 +277,16 @@ export class ScdfService {
         });
     }
 
+    public about(): Thenable<string> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let url = this.registration.url + '/about';
+                const response = await this.instance.get(url);
+                resolve(response.data as string);
+            }
+            catch (error) {
+                resolve();
+            }
+        });
+    }
 }
