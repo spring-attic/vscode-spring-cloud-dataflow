@@ -23,7 +23,7 @@ import { DITYPES } from '@pivotal-tools/vscode-extension-di';
 import { LanguageSupport, NotificationManager, JavaFinder } from '@pivotal-tools/vscode-extension-core';
 import {
     LANGUAGE_SERVER_JAR, LANGUAGE_SCDF_STREAM_PREFIX, LANGUAGE_SCDF_APP_PREFIX, CONFIG_PREFIX, LANGUAGE_SCDF_DESC,
-    COMMAND_SCDF_SERVER_NOTIFY, LANGUAGE_SCDF_TASK_PREFIX, LANGUAGE_SCDF_STREAM_RUNTIME_PREFIX
+    COMMAND_SCDF_SERVER_NOTIFY, LANGUAGE_SCDF_TASK_PREFIX, LANGUAGE_SCDF_STREAM_RUNTIME_PREFIX, LS_OUTPUT_NAME
 } from '../extension-globals';
 
 class ClientErrorHandler implements ErrorHandler {
@@ -141,7 +141,8 @@ export class ScdfLanguageSupport implements LanguageSupport {
                 LANGUAGE_SCDF_TASK_PREFIX,
                 LANGUAGE_SCDF_APP_PREFIX
             ],
-            errorHandler: new ClientErrorHandler(CONFIG_PREFIX)
+            errorHandler: new ClientErrorHandler(CONFIG_PREFIX),
+            outputChannelName: LS_OUTPUT_NAME
         };
         return clientOptions;
     }

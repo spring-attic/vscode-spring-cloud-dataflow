@@ -208,6 +208,17 @@
 			{
 				"title": "SCDF",
 				"properties": {
+					"scdf.trace.server": {
+						"type": "string",
+						"enum": [
+							"off",
+							"messages",
+							"verbose"
+						],
+						"default": "off",
+						"description": "Traces the communication between VS Code and the SCDF language server.",
+						"scope": "window"
+					},
 					"scdf.ls.javahome": {
 						"type": [
 							"string",

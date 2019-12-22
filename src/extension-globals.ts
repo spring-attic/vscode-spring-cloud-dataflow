@@ -17,6 +17,7 @@
 // some which needs to be equals what's defined in package.json
 
 export const EXTENSION_ID: string = 'vscode-spring-cloud-dataflow';
+export const LS_OUTPUT_NAME: string = 'Language Support for SCDF';
 export const CONFIG_PREFIX: string = 'scdf';
 export const SCDF_NOTIFICATION_OUTPUT_KEY: string = 'SCDF';
 export const SCDF_NOTIFICATION_OUTPUT_TAG: string = 'scdf-notification-manager';
