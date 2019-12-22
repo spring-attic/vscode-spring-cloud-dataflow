@@ -75,7 +75,7 @@ export class AppsRegisterAllSelectCommand implements Command {
 
         const model = new ScdfModel(server);
         await model.registerApps(uris);
-        this.notificationManager.showMessage(`Registration request for new apps sent`);
+        this.notificationManager.info(`Registration request for new apps sent`);
         this.appsExplorerProvider.refresh();
         this.streamsExplorerProvider.refresh();
     }

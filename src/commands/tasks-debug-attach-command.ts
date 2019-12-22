@@ -41,7 +41,7 @@ export class TasksDebugAttachCommand implements Command {
             .then(handler => {
                 handler.attach();
             }, error => {
-                this.notificationManager.showMessage('Unable to start debug');
+                this.notificationManager.info('Unable to start debug');
             });
     }
 }

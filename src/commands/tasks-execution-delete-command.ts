@@ -39,7 +39,7 @@ export class TasksExecutionDeleteCommand implements Command {
         const server: ServerRegistration = executionNode.registration;
         const model = new ScdfModel(server);
         await model.deleteTaskExecution(executionNode.executionId);
-        this.notificationManager.showMessage(`Deleted task execution ${executionNode.executionId}`);
+        this.notificationManager.info(`Deleted task execution ${executionNode.executionId}`);
         this.tasksExplorerProvider.refresh();
     }
 }

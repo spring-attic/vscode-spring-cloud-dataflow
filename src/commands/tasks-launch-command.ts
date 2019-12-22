@@ -47,10 +47,10 @@ export class TasksLaunchCommand implements Command {
                 properties: params.properties || {},
                 arguments: params.arguments || []
             };
-            this.notificationManager.showMessage(`Launching task ${params.name}`);
+            this.notificationManager.info(`Launching task ${params.name}`);
             const response: DataflowResponse = await this.languageServerManager
                 .getLanguageClient(LANGUAGE_SCDF_TASK_PREFIX).sendRequest(LSP_SCDF_LAUNCH_TASK, p);
-            this.notificationManager.showMessage(response.message);
+            this.notificationManager.info(response.message);
             this.tasksExplorerProvider.refresh();
         }
     }

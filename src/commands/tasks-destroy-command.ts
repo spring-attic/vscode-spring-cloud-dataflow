@@ -45,10 +45,10 @@ export class TasksDestroyCommand implements Command {
                 name: params.name,
                 server: server
             };
-            this.notificationManager.showMessage(`Destroying task ${params.name}`);
+            this.notificationManager.info(`Destroying task ${params.name}`);
             const response: DataflowResponse = await this.languageServerManager
                 .getLanguageClient(LANGUAGE_SCDF_TASK_PREFIX).sendRequest(LSP_SCDF_DESTROY_TASK, p);
-            this.notificationManager.showMessage(response.message);
+            this.notificationManager.info(response.message);
             this.tasksExplorerProvider.refresh();
         }
     }

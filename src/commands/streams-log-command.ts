@@ -41,7 +41,7 @@ export class StreamsLogCommand implements Command {
                 this.outputManager.setText('SCDF ' + key, data.logs[key], [OUTPUT_TAG_STREAM]);
             });
         } else {
-            this.notificationManager.showMessage(`No logs available for stream ${args[0].streamName}`);
+            this.notificationManager.info(`No logs available for stream ${args[0].streamName}`);
         }
     }
 }

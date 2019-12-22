@@ -85,7 +85,7 @@ export class ScdfLanguageSupport implements LanguageSupport {
         return new Promise(async (resolve, reject) => {
             const languageClient = new LanguageClient(CONFIG_PREFIX, LANGUAGE_SCDF_DESC, await this.getServerOptions(), this.getLanguageClientOptions());
             languageClient.onReady().then(() => {
-                this.notificationManager.showMessage('Started Language Support for ' + this.getLanguageIds().join(','));
+                this.notificationManager.info('Started Language Support for ' + this.getLanguageIds().join(','));
                 commands.executeCommand(COMMAND_SCDF_SERVER_NOTIFY);
             });
             resolve(languageClient);

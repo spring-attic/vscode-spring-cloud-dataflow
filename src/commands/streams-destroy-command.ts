@@ -45,10 +45,10 @@ export class StreamsDestroyCommand implements Command {
                 name: params.name,
                 server: server
             };
-            this.notificationManager.showMessage(`Destroying stream ${params.name}`);
+            this.notificationManager.info(`Destroying stream ${params.name}`);
             const response: DataflowResponse = await this.languageServerManager
                 .getLanguageClient(LANGUAGE_SCDF_STREAM_PREFIX).sendRequest(LSP_SCDF_DESTROY_STREAM, p);
-            this.notificationManager.showMessage(response.message);
+            this.notificationManager.info(response.message);
             this.streamsExplorerProvider.refresh();
         }
     }

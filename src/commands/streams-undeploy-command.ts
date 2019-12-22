@@ -45,10 +45,10 @@ export class StreamsUndeployCommand implements Command {
                 name: params.name,
                 server: server
             };
-            this.notificationManager.showMessage(`Undeploying stream ${params.name}`);
+            this.notificationManager.info(`Undeploying stream ${params.name}`);
             const response: DataflowResponse = await this.languageServerManager
                 .getLanguageClient(LANGUAGE_SCDF_STREAM_PREFIX).sendRequest(LSP_SCDF_UNDEPLOY_STREAM, p);
-            this.notificationManager.showMessage(response.message);
+            this.notificationManager.info(response.message);
             this.streamsExplorerProvider.refresh();
         }
     }

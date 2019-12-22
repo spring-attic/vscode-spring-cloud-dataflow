@@ -45,10 +45,10 @@ export class StreamsDeployCommand implements Command {
                 server: params.server || defaultServer.name,
                 properties: params.properties || {}
             };
-            this.notificationManager.showMessage(`Deploying stream ${params.name}`);
+            this.notificationManager.info(`Deploying stream ${params.name}`);
             const response: DataflowResponse = await this.languageServerManager
                 .getLanguageClient(LANGUAGE_SCDF_STREAM_PREFIX).sendRequest(LSP_SCDF_DEPLOY_STREAM, p);
-            this.notificationManager.showMessage(response.message);
+            this.notificationManager.info(response.message);
             this.streamsExplorerProvider.refresh();
         }
     }
