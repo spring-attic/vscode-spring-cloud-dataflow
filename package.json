@@ -281,7 +281,7 @@
 						"scope": "window"
 					},
 					"scdf.notification.level": {
-						"type": "number",
+						"type": "string",
 						"enum": [
 							"Trace",
 							"Info",
