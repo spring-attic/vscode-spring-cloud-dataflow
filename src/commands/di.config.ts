@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,6 +52,7 @@ import { TasksExecutionDeleteCommand } from './tasks-execution-delete-command';
 import { AppsOpenImportCommand } from './apps-open-import-command';
 import { LsRestartCommand } from './ls-restart-command';
 import { ServerInspectCommand } from './server-inspect-command';
+import { AppsInspectCommand } from './apps-inspect-command';
 
 const commandsContainerModule = new ContainerModule((bind) => {
     bind<ServerRegistrationManager>(TYPES.ServerRegistrationManager).to(ServerRegistrationManager).inSingletonScope();
@@ -79,6 +80,7 @@ const commandsContainerModule = new ContainerModule((bind) => {
     bind<Command>(DITYPES.Command).to(AppsRegisterCommand);
     bind<Command>(DITYPES.Command).to(AppsRegisterAllCommand);
     bind<Command>(DITYPES.Command).to(AppsRegisterAllSelectCommand);
+    bind<Command>(DITYPES.Command).to(AppsInspectCommand);
     bind<Command>(DITYPES.Command).to(AppsUnregisterCommand);
     bind<Command>(DITYPES.Command).to(AppsDefaultCommand);
     bind<Command>(DITYPES.Command).to(AppsOpenImportCommand);

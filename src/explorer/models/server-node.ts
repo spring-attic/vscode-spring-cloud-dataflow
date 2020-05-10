@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { workspace } from 'vscode';
 import { IconManager, ThemedIconPath } from '@pivotal-tools/vscode-extension-core';
 import { BaseNode } from './base-node';
 import { ScdfModel, ScdfAppEntry } from '../../service/scdf-model';
@@ -23,7 +24,6 @@ import { TaskNode } from './task-node';
 import { JobNode } from './job-node';
 import { ServerState } from '../../service/server-states-manager';
 import { CONFIG_SCDF_SERVER_STATECHECK } from '../../extension-globals';
-import { workspace } from 'vscode';
 
 /**
  * Enumeration of a possible child types under server in a dataflow. Mostly following web
@@ -91,7 +91,7 @@ export class ServerNode extends BaseNode {
                 appTypes.forEach((v, k) => {
                     const name = k.toString();
                     const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1);
-                    nodes.push(new AppTypeNode(nameCapitalized, v.size.toString(), this.getIconManager(), k, v));
+                    nodes.push(new AppTypeNode(nameCapitalized, v.size.toString(), this.getIconManager(), this.registration, k, v));
                 });
                 return nodes;
             });

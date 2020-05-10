@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -223,6 +223,10 @@ export class ScdfModel {
 
     public about(): Thenable<string> {
         return this.scdfService.about();
+    }
+
+    public getApp(type: string, name: string, version: string): Thenable<string> {
+        return this.scdfService.getApp(type, name, version);
     }
 
     public serverState(): Thenable<ServerState> {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -281,6 +281,19 @@ export class ScdfService {
         return new Promise(async (resolve, reject) => {
             try {
                 let url = this.registration.url + '/about';
+                const response = await this.instance.get(url);
+                resolve(response.data as string);
+            }
+            catch (error) {
+                resolve();
+            }
+        });
+    }
+
+    public getApp(type: string, name: string, version: string): Thenable<string> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let url = this.registration.url + '/apps/' + type + '/' + name + '/' + version;
                 const response = await this.instance.get(url);
                 resolve(response.data as string);
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,6 +66,7 @@ export const COMMAND_SCDF_STEPS_EXECUTION_INSPECT: string = 'vscode-spring-cloud
 export const COMMAND_SCDF_APPS_REGISTERALL: string = 'vscode-spring-cloud-dataflow.apps.registerall';
 export const COMMAND_SCDF_APPS_REGISTERALLSELECT: string = 'vscode-spring-cloud-dataflow.apps.registerallselect';
 export const COMMAND_SCDF_APPS_REGISTER: string = 'vscode-spring-cloud-dataflow.apps.register';
+export const COMMAND_SCDF_APPS_INSPECT: string = 'vscode-spring-cloud-dataflow.apps.inspect';
 export const COMMAND_SCDF_APPS_UNREGISTER: string = 'vscode-spring-cloud-dataflow.apps.unregister';
 export const COMMAND_SCDF_APPS_DEFAULT: string = 'vscode-spring-cloud-dataflow.apps.default';
 export const COMMAND_SCDF_APPS_OPEN_IMPORT: string = 'vscode-spring-cloud-dataflow.apps.open.import';

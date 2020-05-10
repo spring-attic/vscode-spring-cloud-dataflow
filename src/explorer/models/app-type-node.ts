@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 import { IconManager, ThemedIconPath } from "@pivotal-tools/vscode-extension-core";
 import { BaseNode } from "./base-node";
-import { ScdfModel, ScdfAppEntry } from "../../service/scdf-model";
+import { ScdfAppEntry } from "../../service/scdf-model";
 import { AppNode } from "./app-node";
 import { ServerRegistration } from "../../service/server-registration-manager";
 
@@ -40,6 +40,7 @@ export class AppTypeNode extends BaseNode {
         label: string,
         description: string | undefined,
         iconManager: IconManager,
+        public readonly registration: ServerRegistration,
         private readonly type: AppType,
         private childData: Map<string, Map<string, ScdfAppEntry>>
     ) {
@@ -70,7 +71,7 @@ export class AppTypeNode extends BaseNode {
     private async getAppNodes(type: AppType): Promise<AppNode[]> {
         const nodes: AppNode[] = [];
         this.childData.forEach((v, k) => {
-            nodes.push(new AppNode(k, v.size.toString(), this.getIconManager(), type, v));
+            nodes.push(new AppNode(k, v.size.toString(), this.getIconManager(), this.registration, type, v));
         });
         return nodes;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ import { IconManager, ThemedIconPath } from "@pivotal-tools/vscode-extension-cor
 import { BaseNode } from "./base-node";
 import { TreeItemCollapsibleState } from "vscode";
 import { AppType } from "./app-type-node";
+import { ServerRegistration } from "../../service/server-registration-manager";
 
 export class AppVersionNode extends BaseNode {
 
@@ -24,6 +25,7 @@ export class AppVersionNode extends BaseNode {
         label: string,
         description: string | undefined,
         iconManager: IconManager,
+        public readonly registration: ServerRegistration,
         public readonly type: AppType,
         public readonly name: string,
         public readonly version: string

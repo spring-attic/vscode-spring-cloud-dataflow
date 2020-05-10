@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2019-2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ import { BaseNode } from "./base-node";
 import { AppType } from "./app-type-node";
 import { AppVersionNode } from "./app-version-node";
 import { ScdfAppEntry } from "../../service/scdf-model";
+import { ServerRegistration } from "../../service/server-registration-manager";
 
 /**
  * Generic node which is any of {@link AppType}.
@@ -28,6 +29,7 @@ export class AppNode extends BaseNode {
         label: string,
         description: string | undefined,
         iconManager: IconManager,
+        public readonly registration: ServerRegistration,
         private readonly type: AppType,
         private childData: Map<string, ScdfAppEntry>
     ) {
@@ -37,7 +39,7 @@ export class AppNode extends BaseNode {
     public async getChildren(element: BaseNode): Promise<BaseNode[]> {
         let nodes: AppVersionNode[] = [];
         this.childData.forEach((v, k) => {
-            nodes.push(new AppVersionNode(k, v.defaultVersion ? 'default' : undefined, this.getIconManager(), this.type, this.label, k));
+            nodes.push(new AppVersionNode(k, v.defaultVersion ? 'default' : undefined, this.getIconManager(), this.registration, this.type, this.label, k));
         });
         return nodes;
     }
