@@ -129,9 +129,49 @@ export interface ScdfStreamRuntimeApplicationEntry {
 export interface ScdfStreamRuntimeApplicationInstanceEntry {
     guid: string;
     id: string;
-    index: number;
-    properties: any;
     state: string;
+}
+
+export interface StreamStatusResourceList {
+    applications: StreamStatusResourceListApplications;
+    name: string;
+    version: string;
+}
+
+export interface StreamStatusResourceListApplications {
+    _embedded: StreamStatusResourceListApplicationsEmbedded;
+}
+
+export interface StreamStatusResourceListApplicationsEmbedded {
+    appStatusResourceList: AppStatusResourceList[];
+}
+
+export interface AppStatusResourceList {
+    deploymentId: string;
+    instances: AppStatusResourceListInstances;
+    name: string;
+    state: string;
+}
+
+export interface AppStatusResourceListInstances {
+    _embedded: AppStatusResourceListInstancesEmbedded;
+}
+
+export interface AppStatusResourceListInstancesEmbedded {
+    appInstanceStatusResourceList: AppInstanceStatusResourceList[];
+}
+
+export interface AppInstanceStatusResourceList {
+    attributes: AppInstanceStatusResourceListAttributes;
+    guid: string;
+    instanceId: string;
+    state: string;
+}
+
+export interface AppInstanceStatusResourceListAttributes {
+    guid: string;
+    pid: string;
+    port: string;
 }
 
 export interface ScdfStreamLogs {

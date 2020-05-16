@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { workspace } from 'vscode';
+import { workspace, version } from 'vscode';
 import axios, { AxiosInstance } from 'axios';
 import * as https from 'https';
 import * as FormData from 'form-data';
 import {
     ScdfStreamEntry, ScdfAppEntry, ScdfStreamDeploymentEntry, ScdfStreamRuntimeEntry, ScdfStreamLogs, ScdfTaskEntry,
-    ScdfTaskExecutionEntry, ScdfJobEntry, ScdfJobExecutionEntry, ScdfStepExecutionEntry
+    ScdfTaskExecutionEntry, ScdfJobEntry, ScdfJobExecutionEntry, ScdfStepExecutionEntry, StreamStatusResourceList, ScdfStreamRuntimeApplicationEntry, ScdfStreamRuntimeApplicationInstanceEntry
 } from './scdf-model';
 import { ServerRegistration } from './server-registration-manager';
 import { CONFIG_SCDF_CONNECTION_TRUSTSSL } from '../extension-globals';
@@ -64,7 +64,40 @@ export class ScdfService {
         return new Promise(async (resolve, reject) => {
             const response = await this.instance.get(
                 registration.url + '/runtime/streams?names=' + streamName);
-            resolve((response.data as ScdfStreamRuntimeEntry[]));
+
+            let entries: ScdfStreamRuntimeEntry[] = [];
+            if (response.data._embedded && response.data._embedded.streamStatusResourceList) {
+                const list1: StreamStatusResourceList[] = response.data._embedded.streamStatusResourceList;
+                list1.forEach(streamStatusResourceList => {
+                    const applications: ScdfStreamRuntimeApplicationEntry[] = [];
+                    streamStatusResourceList.applications._embedded.appStatusResourceList.forEach(appStatusResourceList => {
+                        const list2: ScdfStreamRuntimeApplicationInstanceEntry[] = [];
+                        appStatusResourceList.instances._embedded.appInstanceStatusResourceList.forEach(appInstanceStatusResourceList => {
+                            const entry3: ScdfStreamRuntimeApplicationInstanceEntry = {
+                                guid: appInstanceStatusResourceList.guid,
+                                id: appInstanceStatusResourceList.instanceId,
+                                state: appInstanceStatusResourceList.state
+                            };
+                            list2.push(entry3);
+                        });
+                        const entry2: ScdfStreamRuntimeApplicationEntry = {
+                            id: appStatusResourceList.deploymentId,
+                            name: appStatusResourceList.name,
+                            instances: list2
+                        };
+                        applications.push(entry2);
+                    });
+                    const entry1: ScdfStreamRuntimeEntry = {
+                        name: streamStatusResourceList.name,
+                        version: streamStatusResourceList.version,
+                        applications: applications
+                    };
+                    entries.push(entry1);
+                });
+            } else {
+                entries = response.data;
+            }
+            resolve(entries);
         });
     }
 
