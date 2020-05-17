@@ -97,7 +97,7 @@ export class ScdfService {
                             entries.push(entry1);
                         }
                     });
-                } else {
+                } else if (!response.data._links) {
                     entries = response.data;
                 }
                 resolve(entries);
