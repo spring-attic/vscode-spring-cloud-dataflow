@@ -62,42 +62,48 @@ export class ScdfService {
 
     public getStreamRuntime(registration: ServerRegistration, streamName: string): Thenable<ScdfStreamRuntimeEntry[]> {
         return new Promise(async (resolve, reject) => {
-            const response = await this.instance.get(
-                registration.url + '/runtime/streams?names=' + streamName);
 
             let entries: ScdfStreamRuntimeEntry[] = [];
-            if (response.data._embedded && response.data._embedded.streamStatusResourceList) {
-                const list1: StreamStatusResourceList[] = response.data._embedded.streamStatusResourceList;
-                list1.forEach(streamStatusResourceList => {
-                    const applications: ScdfStreamRuntimeApplicationEntry[] = [];
-                    streamStatusResourceList.applications._embedded.appStatusResourceList.forEach(appStatusResourceList => {
-                        const list2: ScdfStreamRuntimeApplicationInstanceEntry[] = [];
-                        appStatusResourceList.instances._embedded.appInstanceStatusResourceList.forEach(appInstanceStatusResourceList => {
-                            const entry3: ScdfStreamRuntimeApplicationInstanceEntry = {
-                                guid: appInstanceStatusResourceList.guid,
-                                id: appInstanceStatusResourceList.instanceId,
-                                state: appInstanceStatusResourceList.state
+            try {
+                const response = await this.instance.get(
+                    registration.url + '/runtime/streams?names=' + streamName);
+                if (response.data._embedded && response.data._embedded.streamStatusResourceList) {
+                    const list1: StreamStatusResourceList[] = response.data._embedded.streamStatusResourceList;
+                    list1.forEach(streamStatusResourceList => {
+                        const applications: ScdfStreamRuntimeApplicationEntry[] = [];
+                        if (streamStatusResourceList.applications && streamStatusResourceList.applications._embedded && streamStatusResourceList.applications._embedded.appStatusResourceList) {
+                            streamStatusResourceList.applications._embedded.appStatusResourceList.forEach(appStatusResourceList => {
+                                const list2: ScdfStreamRuntimeApplicationInstanceEntry[] = [];
+                                appStatusResourceList.instances._embedded.appInstanceStatusResourceList.forEach(appInstanceStatusResourceList => {
+                                    const entry3: ScdfStreamRuntimeApplicationInstanceEntry = {
+                                        guid: appInstanceStatusResourceList.guid,
+                                        id: appInstanceStatusResourceList.instanceId,
+                                        state: appInstanceStatusResourceList.state
+                                    };
+                                    list2.push(entry3);
+                                });
+                                const entry2: ScdfStreamRuntimeApplicationEntry = {
+                                    id: appStatusResourceList.deploymentId,
+                                    name: appStatusResourceList.name,
+                                    instances: list2
+                                };
+                                applications.push(entry2);
+                            });
+                            const entry1: ScdfStreamRuntimeEntry = {
+                                name: streamStatusResourceList.name,
+                                version: streamStatusResourceList.version,
+                                applications: applications
                             };
-                            list2.push(entry3);
-                        });
-                        const entry2: ScdfStreamRuntimeApplicationEntry = {
-                            id: appStatusResourceList.deploymentId,
-                            name: appStatusResourceList.name,
-                            instances: list2
-                        };
-                        applications.push(entry2);
+                            entries.push(entry1);
+                        }
                     });
-                    const entry1: ScdfStreamRuntimeEntry = {
-                        name: streamStatusResourceList.name,
-                        version: streamStatusResourceList.version,
-                        applications: applications
-                    };
-                    entries.push(entry1);
-                });
-            } else {
-                entries = response.data;
+                } else {
+                    entries = response.data;
+                }
+                resolve(entries);
+            } catch (error) {
+                resolve(entries);
             }
-            resolve(entries);
         });
     }
 
