@@ -38,9 +38,14 @@ export class StreamsDestroyCommand implements Command {
     }
 
     async execute(params: DataflowStreamDestroyParams) {
-        const defaultServer = await this.serverRegistrationManager.getDefaultServer();
-        if (defaultServer) {
-            const server = params.server || defaultServer.name;
+        let server = params.server;
+        if (!server) {
+            const defaultServer = await this.serverRegistrationManager.getDefaultServer();
+            if (defaultServer) {
+                server = defaultServer.name;
+            }
+        }
+        if (server) {
             const p: DataflowStreamDestroyParams = {
                 name: params.name,
                 server: server
@@ -50,6 +55,8 @@ export class StreamsDestroyCommand implements Command {
                 .getLanguageClient(LANGUAGE_SCDF_STREAM_PREFIX).sendRequest(LSP_SCDF_DESTROY_STREAM, p);
             this.notificationManager.info(response.message);
             this.streamsExplorerProvider.refresh();
+        } else {
+            this.notificationManager.error(`Error destroying stream ${params.name}, missing server info`);
         }
     }
 }
