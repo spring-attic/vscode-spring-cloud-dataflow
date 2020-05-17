@@ -42,7 +42,7 @@ export class StreamDebugAttachCommand implements Command {
             .then(handler => {
                 handler.attach();
             }, error => {
-                this.notificationManager.info('Unable to start debug');
+                this.notificationManager.error('Unable to start debug ' + error);
             });
     }
 }
