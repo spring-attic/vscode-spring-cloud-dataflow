@@ -71,6 +71,7 @@ export const COMMAND_SCDF_APPS_UNREGISTER: string = 'vscode-spring-cloud-dataflo
 export const COMMAND_SCDF_APPS_DEFAULT: string = 'vscode-spring-cloud-dataflow.apps.default';
 export const COMMAND_SCDF_APPS_OPEN_IMPORT: string = 'vscode-spring-cloud-dataflow.apps.open.import';
 export const COMMAND_SCDF_LS_RESTART: string = 'vscode-spring-cloud-dataflow.ls.restart';
+export const COMMAND_SCDF_SETTINGS_OPEN: string = 'vscode-spring-cloud-dataflow.settings.open';
 export const LSP_SCDF_CREATE_STREAM: string = CONFIG_PREFIX + '/createStream';
 export const LSP_SCDF_DEPLOY_STREAM: string = CONFIG_PREFIX + '/deployStream';
 export const LSP_SCDF_UNDEPLOY_STREAM: string = CONFIG_PREFIX + '/undeployStream';

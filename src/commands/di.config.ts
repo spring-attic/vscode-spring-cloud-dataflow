@@ -53,6 +53,7 @@ import { AppsOpenImportCommand } from './apps-open-import-command';
 import { LsRestartCommand } from './ls-restart-command';
 import { ServerInspectCommand } from './server-inspect-command';
 import { AppsInspectCommand } from './apps-inspect-command';
+import { SettingsOpenCommand } from './settings-open-command';
 
 const commandsContainerModule = new ContainerModule((bind) => {
     bind<ServerRegistrationManager>(TYPES.ServerRegistrationManager).to(ServerRegistrationManager).inSingletonScope();
@@ -92,5 +93,6 @@ const commandsContainerModule = new ContainerModule((bind) => {
     bind<Command>(DITYPES.Command).to(ScdfLogCloseTaskCommand);
     bind<Command>(DITYPES.Command).to(ExplorerRefreshCommand);
     bind<Command>(DITYPES.Command).to(LsRestartCommand);
+    bind<Command>(DITYPES.Command).to(SettingsOpenCommand);
 });
 export default commandsContainerModule;

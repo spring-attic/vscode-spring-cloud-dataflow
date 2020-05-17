@@ -31,7 +31,8 @@
 		"onCommand:vscode-spring-cloud-dataflow.server.notify",
 		"onCommand:vscode-spring-cloud-dataflow.app.register",
 		"onCommand:vscode-spring-cloud-dataflow.app.unregister",
-		"onCommand:vscode-spring-cloud-dataflow.streams.deploy"
+		"onCommand:vscode-spring-cloud-dataflow.streams.deploy",
+		"onCommand:vscode-spring-cloud-dataflow.settings.open"
 	],
 	"main": "./dist/extension",
 	"contributes": {
@@ -211,6 +212,11 @@
 			{
 				"command": "vscode-spring-cloud-dataflow.ls.restart",
 				"title": "Restart Language Server",
+				"category": "SCDF"
+			},
+			{
+				"command": "vscode-spring-cloud-dataflow.settings.open",
+				"title": "Open Settings",
 				"category": "SCDF"
 			}
 		],
@@ -461,6 +467,10 @@
 				},
 				{
 					"command": "vscode-spring-cloud-dataflow.log.close.all",
+					"when": "view == scdfApps"
+				},
+				{
+					"command": "vscode-spring-cloud-dataflow.settings.open",
 					"when": "view == scdfApps"
 				},
 				{
