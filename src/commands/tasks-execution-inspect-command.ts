@@ -36,7 +36,7 @@ export class TasksExecutionInspectCommand implements Command {
         const server: ServerRegistration = executionNode.registration;
         const model = new ScdfModel(server);
         const data = await model.getTaskExecution(executionNode.executionId);
-        const node = {label: `${executionNode.taskName}-${executionNode.executionId}`, fullId: executionNode.externalExecutionId};
+        const node = {label: `${executionNode.taskName}-${executionNode.executionId}`, fullId: `${executionNode.taskName}-${executionNode.executionId}`};
         await this.readOnlyDocumentManager.openReadOnlyJson(node, data);
     }
 }
