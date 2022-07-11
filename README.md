@@ -1,3 +1,5 @@
+# vscode-spring-cloud-dataflow is no longer actively maintained by VMware, Inc.
+
 [vscode-docs-generic-1]: https://raw.githubusercontent.com/spring-projects-experimental/vscode-spring-cloud-dataflow/master/docs/images/vscode-docs-generic-1.png
 # VSCode extension for Spring Cloud Data Flow
 
